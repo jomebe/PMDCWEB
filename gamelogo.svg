@@ -1,31 +1,7 @@
-<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#76c7c0;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#4ca1af;stop-opacity:1" />
-        </linearGradient>
-        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-            <feOffset dx="2" dy="2" result="offsetblur" />
-            <feFlood flood-color="rgba(0, 0, 0, 0.5)" />
-            <feComposite in2="offsetblur" operator="in" />
-            <feMerge>
-                <feMergeNode />
-                <feMergeNode in="SourceGraphic" />
-            </feMerge>
-        </filter>
-        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#76c7c0;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    
-    <!-- 육각형 배경 그라데이션 추가 -->
-    <polygon points="100,20 150,50 150,100 100,130 50,100 50,50" fill="url(#hexGradient)" filter="url(#shadow)" />
-    
-    <!-- 테두리 추가 -->
-    <polygon points="100,20 150,50 150,100 100,130 50,100 50,50" fill="none" stroke="#005f5f" stroke-width="2" />
-    
-    <!-- 디자인된 CTA 텍스트 추가 (그라데이션 텍스트) -->
-    <text x="100" y="85" font-family="Arial" font-size="28" fill="url(#textGradient)" text-anchor="middle" style="font-weight:bold; filter: url(#shadow);">CTA</text>
+<svg width="362" height="383" viewBox="0 0 362 383" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M141.007 173.617L255.209 115.429C255.895 115.079 255.945 114.118 255.3 113.699L147.806 43.8916C147.16 43.4724 146.303 43.9092 146.263 44.678L139.555 172.674C139.514 173.443 140.321 173.967 141.007 173.617Z" fill="#D23131" stroke="white" stroke-width="4"/>
+<path d="M152.931 88.7364L146.177 217.597C146.137 218.366 145.28 218.803 144.634 218.384L36.414 148.105C35.7684 147.685 35.8188 146.724 36.5047 146.375L151.478 87.793C152.164 87.4435 152.971 87.9676 152.931 88.7364Z" fill="#D23131" stroke="white" stroke-width="4"/>
+<path d="M210.235 294.537L325.208 235.955C325.894 235.605 325.945 234.644 325.299 234.225L217.079 163.946C216.433 163.527 215.576 163.964 215.536 164.732L208.782 293.593C208.742 294.362 209.549 294.886 210.235 294.537Z" fill="#373737" stroke="white" stroke-width="4"/>
+<path d="M222.415 208.763L215.328 337.373C215.286 338.141 214.429 338.576 213.785 338.157L106.264 268.332C105.619 267.913 105.668 266.954 106.352 266.604L220.961 207.818C221.648 207.466 222.458 207.992 222.415 208.763Z" fill="#00B2CB" stroke="white" stroke-width="4"/>
+<path d="M71.2348 294.537L186.208 235.955C186.894 235.605 186.945 234.644 186.299 234.225L78.0788 163.946C77.4332 163.527 76.5758 163.964 76.5355 164.732L69.7822 293.593C69.7419 294.362 70.5489 294.886 71.2348 294.537Z" fill="#00B2CB" stroke="white" stroke-width="4"/>
 </svg>
