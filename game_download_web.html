@@ -38,8 +38,22 @@
             margin-top: 100px;
         }
 
+        /* CTA 기본 스타일 */
         .cta-text {
-            font-size: 100px;
+            font-size: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0; /* 간격을 0으로 시작 */
+            transition: gap 2s ease-in-out; /* 애니메이션으로 간격 변화 */
+        }
+
+        .cta-text.expand-gap {
+            gap: 80px; /* 애니메이션 후 간격 설정 */
+        }
+
+        .cta-text .c, .cta-text .t, .cta-text .a {
+            position: relative; /* 추가 텍스트를 상대적으로 위치시킬 수 있게 함 */
         }
 
         .cta-text .c {
@@ -52,6 +66,45 @@
 
         .cta-text .a {
             color: #F44336; /* Red */
+        }
+
+        /* 추가 텍스트 스타일 */
+        .extra-text {
+            font-size: 60px;
+            transform: translateY(-30%); /* 위로 살짝 올림 */
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        /* 각 텍스트 위치 조정 */
+        .capture {
+            color: #00BCD4; /* Cyan */
+            animation: slideText 1s forwards;
+            animation-delay: 0s;
+        }
+
+        .he {
+            color: #333; /* Dark gray */
+            animation: slideText 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        .rea {
+            color: #F44336; /* Red */
+            animation: slideText 1s forwards;
+            animation-delay: 1s;
+        }
+
+        /* 애니메이션 */
+        @keyframes slideText {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px); /* 살짝 위에서 시작 */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* 원래 위치 */
+            }
         }
     </style>
 </head>
@@ -67,10 +120,23 @@
     </div>
 
     <div class="content">
-        <div class="cta-text">
-            <span class="c">C</span><span class="t">T</span><span class="a">A</span>
+        <div class="cta-text" id="ctaText">
+            <span class="c">C<span class="extra-text capture"> apture</span></span>
+            <span class="t">T<span class="extra-text he"> he</span></span>
+            <span class="a">A<span class="extra-text rea">  rea</span></span>
         </div>
+        
     </div>
+
+    <script>
+        // 페이지 로드 후 CTA 간격 벌리는 애니메이션 실행
+        window.onload = function() {
+            const ctaText = document.getElementById('ctaText');
+            setTimeout(() => {
+                ctaText.classList.add('expand-gap');
+            }, 0); // 즉시 간격 애니메이션 시작
+        };
+    </script>
 
 </body>
 </html>
