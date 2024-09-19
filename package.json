@@ -1,4 +1,5 @@
 {
+  "homepage" : "https://jomebe.github.io/PMDCWEB/",
   "dependencies": {
     "gh-pages": "^6.1.1"
   }
