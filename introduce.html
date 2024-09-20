@@ -8,22 +8,19 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #00BCD4, #F44336); /* 그라데이션 배경 추가 */
+            background: linear-gradient(135deg, #00BCD4, #F44336);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             color: white;
+            overflow-x: hidden;
         }
 
+        /* 메뉴바가 좌측 정렬되도록 변경 */
         .header {
             background-color: #D3D3D3;
             padding: 10px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* 메뉴를 왼쪽으로 정렬 */
             align-items: center;
-            width: 100%;
         }
 
         .header img {
