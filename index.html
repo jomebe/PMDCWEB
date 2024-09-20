@@ -8,6 +8,13 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00BCD4, #F44336); /* 그라데이션 배경 추가 */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
         }
 
         .header {
@@ -16,6 +23,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .header img {
@@ -38,72 +46,70 @@
             margin-top: 100px;
         }
 
-        /* CTA 기본 스타일 */
         .cta-text {
             font-size: 400px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0; /* 간격을 0으로 시작 */
-            transition: gap 2s ease-in-out; /* 애니메이션으로 간격 변화 */
+            gap: 0;
+            transition: gap 2s ease-in-out;
         }
 
         .cta-text.expand-gap {
-            gap: 80px; /* 애니메이션 후 간격 설정 */
+            gap: 80px;
         }
 
         .cta-text .c, .cta-text .t, .cta-text .a {
-            position: relative; /* 추가 텍스트를 상대적으로 위치시킬 수 있게 함 */
+            position: relative;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
         }
+        
 
         .cta-text .c {
-            color: #00BCD4; /* Cyan */
+            color: #00BCD4;
         }
 
         .cta-text .t {
-            color: #333; /* Dark gray */
+            color: #333;
         }
 
         .cta-text .a {
-            color: #F44336; /* Red */
+            color: #F44336;
         }
 
-        /* 추가 텍스트 스타일 */
         .extra-text {
             font-size: 60px;
-            transform: translateY(-30%); /* 위로 살짝 올림 */
+            transform: translateY(-30%);
             opacity: 0;
             white-space: nowrap;
         }
 
-        /* 각 텍스트 위치 조정 */
         .capture {
-            color: #00BCD4; /* Cyan */
+            color: #00BCD4;
             animation: slideText 1s forwards;
             animation-delay: 0.5s;
         }
 
         .he {
-            color: #333; /* Dark gray */
+            color: #333;
             animation: slideText 1s forwards;
             animation-delay: 1s;
         }
 
         .rea {
-            color: #F44336; /* Red */
+            color: #F44336;
             animation: slideText 1s forwards;
             animation-delay: 1.5s;
         }
 
-        /* 애니메이션 */
         @keyframes slideText {
             0% {
                 opacity: 0;
-                transform: translateY(-20px); /* 살짝 위에서 시작 */
+                transform: translateY(-20px);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0); /* 원래 위치 */
+                transform: translateY(0);
             }
         }
     </style>
@@ -113,7 +119,7 @@
     <div class="header">
         <img src="gamelogo.svg" alt="Logo">
         <div class="nav">
-            <a href="introduce.html">HOME</a>
+            <a href="index.html">HOME</a>
             <a href="introduce.html">INTRODUCE</a>
             <a href="download.html">DOWNLOAD</a>
         </div>
@@ -123,18 +129,17 @@
         <div class="cta-text" id="ctaText">
             <span class="c">C<span class="extra-text capture"> apture</span></span>
             <span class="t">T<span class="extra-text he"> he</span></span>
-            <span class="a">A<span class="extra-text rea">  rea</span></span>
+            <span class="a">A<span class="extra-text rea"> rea</span></span>
         </div>
         
     </div>
 
     <script>
-        // 페이지 로드 후 CTA 간격 벌리는 애니메이션 실행
         window.onload = function() {
             const ctaText = document.getElementById('ctaText');
             setTimeout(() => {
                 ctaText.classList.add('expand-gap');
-            }, 500); // 즉시 간격 애니메이션 시작
+            }, 500);
         };
     </script>
 
