@@ -8,14 +8,23 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00BCD4, #F44336);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
 
         .header {
-            background-color: #D3D3D3;
+            background-color: rgba(255, 255, 255, 0.2);
             padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header img {
@@ -29,13 +38,75 @@
 
         .nav a {
             text-decoration: none;
-            color: black;
+            color: white;
             font-size: 14px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 36px;
         }
 
         .content {
             text-align: center;
-            margin-top: 50px;
+        }
+
+        /* 다운로드 항목 스타일 */
+        .download-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .download-option {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: skewY(-5deg);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .download-option:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: skewY(0deg);
+        }
+
+        .download-option h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .download-option button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #FFC107;
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-option button:hover {
+            background-color: #FF9800;
+        }
+
+        .download-option img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .download-options {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -51,8 +122,31 @@
     </div>
 
     <div class="content">
-        <h1>Download Page</h1>
-        <p>Here you can download our application!</p>
+        <h1>Download Your Version</h1>
+        <p>Choose your operating system and start your journey.</p>
+
+        <div class="download-options">
+            <!-- Mac 다운로드 옵션 -->
+            <div class="download-option">
+                <img src="mac_icon.svg" alt="Mac Icon">
+                <h2>Mac</h2>
+                <button onclick="window.location.href='mac_download_link_here'">다운로드하기</button>
+            </div>
+
+            <!-- Windows 32-bit 다운로드 옵션 -->
+            <div class="download-option">
+                <img src="windows_icon.svg" alt="Windows 32-bit Icon">
+                <h2>Windows 32-bit</h2>
+                <button onclick="window.location.href='windows_32bit_download_link_here'">다운로드하기</button>
+            </div>
+
+            <!-- Windows 64-bit 다운로드 옵션 -->
+            <div class="download-option">
+                <img src="windows_icon.svg" alt="Windows 64-bit Icon">
+                <h2>Windows 64-bit</h2>
+                <button onclick="window.location.href='windows_64bit_download_link_here'">다운로드하기</button>
+            </div>
+        </div>
     </div>
 
 </body>
