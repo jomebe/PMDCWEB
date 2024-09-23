@@ -13,107 +13,56 @@
             color: white;
             overflow-x: hidden;
         }
-
-        /* 메뉴바가 좌측 정렬되도록 변경 */
+        
         .header {
             background-color: #D3D3D3;
             height: 5vh;
             padding: 10px;
             display: flex;
-            justify-content: space-between; /* 메뉴를 왼쪽으로 정렬 */
+            justify-content: space-between;
             align-items: center;
         }
-
+        
         .header img {
             height: 40px;
         }
-
+        
         .nav {
             display: flex;
             gap: 15px;
         }
-
+        
         .nav a {
             text-decoration: none;
             color: black;
             font-size: 14px;
         }
-
+        
         .content {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 0px;
+            position: relative;
         }
-
-        .cta-text {
-            font-size: 400px;
+        
+        .video-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0;
-            transition: gap 2s ease-in-out;
-        }
-
-        .cta-text.expand-gap {
-            gap: 80px;
-        }
-
-        .cta-text .c, .cta-text .t, .cta-text .a {
             position: relative;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
+            overflow: hidden;
         }
         
-
-        .cta-text .c {
-            color: #00BCD4;
+        video {
+            max-width: 100%;
+            height: 90vh;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            mix-blend-mode:lighten;
         }
-
-        .cta-text .t {
-            color: #333;
-        }
-
-        .cta-text .a {
-            color: #F44336;
-        }
-
-        .extra-text {
-            font-size: 60px;
-            transform: translateY(-30%);
-            opacity: 0;
-            white-space: nowrap;
-        }
-
-        .capture {
-            color: #00BCD4;
-            animation: slideText 1s forwards;
-            animation-delay: 0.5s;
-        }
-
-        .he {
-            color: #333;
-            animation: slideText 1s forwards;
-            animation-delay: 1s;
-        }
-
-        .rea {
-            color: #F44336;
-            animation: slideText 1s forwards;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes slideText {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        
+        
     </style>
 </head>
 <body>
-
     <div class="header">
         <a href="index.html">
             <img src="gamelogo.svg" alt="Logo">
@@ -124,24 +73,12 @@
             <a href="download.html">DOWNLOAD</a>
         </div>
     </div>
-
+    
     <div class="content">
-        <div class="cta-text" id="ctaText">
-            <span class="c">C<span class="extra-text capture"> apture</span></span>
-            <span class="t">T<span class="extra-text he"> he</span></span>
-            <span class="a">A<span class="extra-text rea"> rea</span></span>
+        <div class="video-container">
+            <div class="video-overlay"></div>
+            <video src="CTA intro.webm" autoplay muted loop></video>
         </div>
-        
     </div>
-
-    <script>
-        window.onload = function() {
-            const ctaText = document.getElementById('ctaText');
-            setTimeout(() => {
-                ctaText.classList.add('expand-gap');
-            }, 500);
-        };
-    </script>
-
 </body>
 </html>
