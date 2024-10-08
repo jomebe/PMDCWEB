@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 및 회원가입</title>
+    <title>회원가입</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,31 +32,30 @@
         }
         button {
             padding: 0.5rem;
-            background-color: #007bff;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <form id="loginForm">
-            <h1>로그인</h1>
-            <input type="email" id="signInEmail" placeholder="이메일" required/>
-            <input type="password" id="signInPassword" placeholder="비밀번호" required/>
-            <button type="submit" id="signInButton">로그인</button>
-            <button type="button" onclick="window.open('signup.html', '_blank')">회원가입</button>
+        <form id="signupForm">
+            <h1>회원가입</h1>
+            <input type="email" id="signUpEmail" placeholder="이메일" required/>
+            <input type="password" id="signUpPassword" placeholder="비밀번호" required/>
+            <button type="submit" id="signUpButton">회원가입</button>
         </form>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAOM-VnZYemGupIPaSn-exOQ8KhgsIH2as",
@@ -71,19 +70,20 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        document.getElementById("loginForm").addEventListener("submit", (event) => {
+        document.getElementById("signupForm").addEventListener("submit", (event) => {
             event.preventDefault();
-            const email = document.getElementById("signInEmail").value;
-            const password = document.getElementById("signInPassword").value;
+            const email = document.getElementById("signUpEmail").value;
+            const password = document.getElementById("signUpPassword").value;
 
-            signInWithEmailAndPassword(auth, email, password)
+            createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    console.log("로그인 성공:", userCredential.user);
-                    alert("로그인 성공!");
+                    console.log("회원가입 성공:", userCredential.user);
+                    alert("회원가입 성공!");
+                    window.close(); // 회원가입 완료 후 창 닫기
                 })
                 .catch((error) => {
-                    console.error("로그인 실패:", error.message);
-                    alert("로그인 실패: " + error.message);
+                    console.error("회원가입 실패:", error.message);
+                    alert("회원가입 실패: " + error.message);
                 });
         });
     </script>
