@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+        }
+        .welcome-message {
+            font-size: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-message" id="welcomeMessage"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOM-VnZYemGupIPaSn-exOQ8KhgsIH2as",
+            authDomain: "cta-dicon-cc509.firebaseapp.com",
+            projectId: "cta-dicon-cc509",
+            storageBucket: "cta-dicon-cc509.appspot.com",
+            messagingSenderId: "844956330324",
+            appId: "1:844956330324:web:231747eb4dcc045c3a40c1",
+            measurementId: "G-0NZEG1389T",
+            databaseURL: "https://cta-dicon-cc509-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                get(ref(database, 'users/' + user.uid)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        document.getElementById("welcomeMessage").textContent = `안녕하세요, ${userData.nickname}님!`;
+                    } else {
+                        console.log("사용자 데이터가 없습니다.");
+                        window.location.href = 'set_nickname.html';
+                    }
+                }).catch((error) => {
+                    console.error("사용자 데이터 가져오기 실패:", error);
+                });
+            } else {
+                console.log("로그인된 사용자가 없습니다.");
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

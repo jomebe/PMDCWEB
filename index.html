@@ -57,6 +57,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAOM-VnZYemGupIPaSn-exOQ8KhgsIH2as",
@@ -65,11 +66,13 @@
             storageBucket: "cta-dicon-cc509.appspot.com",
             messagingSenderId: "844956330324",
             appId: "1:844956330324:web:231747eb4dcc045c3a40c1",
-            measurementId: "G-0NZEG1389T"
+            measurementId: "G-0NZEG1389T",
+            databaseURL: "https://cta-dicon-cc509-default-rtdb.firebaseio.com" // 데이터베이스 URL 추가
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const database = getDatabase(app);
 
         document.getElementById("loginForm").addEventListener("submit", (event) => {
             event.preventDefault();
@@ -78,8 +81,21 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    console.log("로그인 성공:", userCredential.user);
-                    alert("로그인 성공!");
+                    const user = userCredential.user;
+                    console.log("로그인 성공:", user);
+                    
+                    // 사용자 정보 확인
+                    get(ref(database, 'users/' + user.uid)).then((snapshot) => {
+                        if (snapshot.exists() && snapshot.val().nickname) {
+                            // 닉네임이 이미 설정되어 있으면 메인 페이지로 이동
+                            window.location.href = 'main.html';
+                        } else {
+                            // 닉네임이 설정되어 있지 않으면 닉네임 설정 페이지로 이동
+                            window.location.href = 'set_nickname.html';
+                        }
+                    }).catch((error) => {
+                        console.error("사용자 정보 확인 실패:", error);
+                    });
                 })
                 .catch((error) => {
                     console.error("로그인 실패:", error.message);
