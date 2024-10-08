@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 및 회원가입</title>
     <style>
+        h3{
+            text-align: center;
+        }
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -23,7 +26,7 @@
         form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.3rem;
         }
         input {
             padding: 0.5rem;
@@ -32,27 +35,34 @@
         }
         button {
             padding: 0.5rem;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            background-color: #EFFFFF;
+            color: rgb(0, 0, 0);
+            border: 1px;
             cursor: pointer;
+            font-size: 13px
+        }
+        img{
+            width: 13px;
+            height: 12px;
+            margin-right: 0.5rem;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #0FFFFF;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <form id="loginForm">
-            <h1>로그인</h1>
-            <input type="email" id="signInEmail" placeholder="이메일" required/>
-            <input type="password" id="signInPassword" placeholder="비밀번호" required/>
+            <h3>Log in with</h3>
+            <button id="googleLogin"><img src="./googlelogo.svg" alt="">Google</button>
+            <br>
+            <input type="email" id="signInEmail" placeholder="Email address" required/>
+            <input type="password" id="signInPassword" placeholder="Password" required/>
             <button type="submit" id="signInButton">로그인</button>
-            <button type="button" onclick="window.open('signup.html', '_blank')">회원가입</button>
-            <button id="googleLogin">구글로그인</button>
+            <a href="https://www.youtube.com/watch?v=4BpFqyxEDbo&ab_channel=LilyAllen-Topic">Forgot Password?</a>
         </form>
+        <p>Don't have account?<a href="#", onclick="window.open('signup.html', '_blank')">Signup now</a></p>
     </div>
 
     <script type="module">
