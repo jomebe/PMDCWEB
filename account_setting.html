@@ -41,21 +41,35 @@
         button:hover {
             background-color: #218838;
         }
+        #logoutButton {
+            background-color: #dc3545;
+        }
+        #logoutButton:hover {
+            background-color: #c82333;
+        }
+        .account-info {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="account-info" id="accountInfo"></div> <!-- 계정 정보 표시 -->
         <form id="nicknameForm">
             <h1>닉네임 설정</h1>
             <input type="text" id="nickname" placeholder="닉네임" required/>
             <button type="submit">설정 완료</button>
         </form>
+        <button id="logoutButton">로그아웃</button> <!-- 로그아웃 버튼 추가 -->
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
@@ -72,12 +86,25 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        document.getElementById("nicknameForm").addEventListener("submit", (event) => {
-            event.preventDefault();
-            const nickname = document.getElementById("nickname").value;
+        // 사용자가 로그인되었는지 확인
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // 사용자의 현재 닉네임을 표시
+                get(ref(database, 'users/' + user.uid)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        document.getElementById("accountInfo").textContent = `로그인됨: ${user.email}, 현재 닉네임: ${snapshot.val().nickname || '없음'}`;
+                    } else {
+                        document.getElementById("accountInfo").textContent = `로그인됨: ${user.email}`;
+                    }
+                }).catch((error) => {
+                    console.error("사용자 정보 로드 실패:", error);
+                });
 
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
+                // 닉네임 설정 제출 처리
+                document.getElementById("nicknameForm").addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const nickname = document.getElementById("nickname").value;
+
                     set(ref(database, 'users/' + user.uid), {
                         nickname: nickname
                     }).then(() => {
@@ -87,11 +114,22 @@
                         console.error("닉네임 설정 실패:", error);
                         alert("닉네임 설정에 실패했습니다. 다시 시도해주세요.");
                     });
-                } else {
-                    console.error("로그인된 사용자가 없습니다.");
-                    window.location.href = 'index.html';
-                }
-            });
+                });
+
+                // 로그아웃 처리
+                document.getElementById("logoutButton").addEventListener("click", () => {
+                    signOut(auth).then(() => {
+                        console.log("로그아웃 성공");
+                        window.location.href = 'login.html';
+                    }).catch((error) => {
+                        console.error("로그아웃 실패:", error);
+                    });
+                });
+
+            } else {
+                console.error("로그인된 사용자가 없습니다.");
+                window.location.href = 'login.html';
+            }
         });
     </script>
 </body>
