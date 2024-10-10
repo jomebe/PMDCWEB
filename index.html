@@ -39,10 +39,11 @@
             margin-right: 20px;
         }
         nav a {
-            color: white;
+            color: #ffffff;
             margin-left: 15px;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
         nav a:hover {
             text-decoration: underline;
@@ -101,7 +102,7 @@
         <img src="gamelogo.svg" alt="게임 로고">
         <h1>땅따먹기 게임</h1>
         <nav>
-            <a href="#" id="accountManagement">계정 관리</a>
+            <a href="#" id="accountManagement">계정 관리</a> <!-- 계정 관리 버튼 -->
         </nav>
     </header>
 
@@ -119,11 +120,6 @@
                 <li>가장 많은 영역을 차지한 플레이어가 승리합니다!</li>
             </ol>
             <p>친구들과 함께 즐기며 최고의 전략가가 되어보세요!</p>
-        </div>
-
-        <div class="cta-buttons">
-            <a href="login.html" class="button" id="loginButton">로그인하러 가기</a>
-            <a href="#" class="button" id="downloadButton">게임 다운로드</a>
         </div>
     </div>
 
@@ -148,45 +144,32 @@
         const database = getDatabase(app);
 
         const welcomeMessage = document.getElementById('welcomeMessage');
-        const loginButton = document.getElementById('loginButton');
         const accountManagement = document.getElementById('accountManagement');
 
+        // 로그인 상태에 따라 계정 관리 버튼 및 메시지 조정
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // 로그인된 상태
                 get(ref(database, 'users/' + user.uid)).then((snapshot) => {
                     if (snapshot.exists() && snapshot.val().nickname) {
                         welcomeMessage.textContent = `안녕하세요, ${snapshot.val().nickname}님!`;
-                        loginButton.textContent = '로그아웃';
-                        loginButton.addEventListener('click', () => {
-                            auth.signOut().then(() => {
-                                location.reload();
-                            }).catch((error) => {
-                                console.error('로그아웃 실패:', error);
-                            });
-                        });
-                        accountManagement.textContent = '계정 관리';
-                        accountManagement.href = 'acount_setting.html';
                     } else {
-                        welcomeMessage.textContent = '닉네임을 설정해주세요.';
-                        loginButton.textContent = '닉네임 설정하기';
-                        loginButton.href = 'acount_setting.html';
+                        welcomeMessage.textContent = `안녕하세요, ${user.email}님!`;
                     }
+
+                    accountManagement.textContent = '계정 관리';
+                    accountManagement.href = 'set_nickname.html'; // 계정 관리 페이지로 이동
+
                 }).catch((error) => {
                     console.error('사용자 데이터 가져오기 실패:', error);
                 });
-            } else {
-                welcomeMessage.textContent = '게임을 즐기려면 로그인하세요!';
-                loginButton.textContent = '로그인하러 가기';
-                loginButton.href = 'login.html';
-                accountManagement.textContent = '계정 관리';
-                accountManagement.href = 'login.html';
-            }
-        });
 
-        document.getElementById('downloadButton').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('게임 다운로드를 시작합니다!');
-            // 다운로드 로직 추가 가능
+            } else {
+                // 로그인되지 않은 상태
+                welcomeMessage.textContent = '게임을 즐기려면 로그인하세요!';
+                accountManagement.textContent = '로그인';
+                accountManagement.href = 'login.html'; // 로그인 페이지로 이동
+            }
         });
     </script>
 </body>
