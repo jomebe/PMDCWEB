@@ -112,8 +112,8 @@
         <img src="gamelogo.svg" alt="게임 로고">
         <h1>땅따먹기 게임</h1>
         <nav>
-            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진" onclick="window.location.href = 'account_setting.html'"> <!-- 기본 프로필 사진 -->
-            <a href="#" id="accountManagement"></a> 
+            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진" onclick="window.location.href = 'account_setting.html';"> <!-- 기본 프로필 사진 -->
+            <a id="loginButton" href="#" style="display: none;">로그인</a> <!-- 로그인 버튼 -->
         </nav>
     </header>
 
@@ -136,7 +136,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
         import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
@@ -158,12 +158,14 @@
 
         const welcomeMessage = document.getElementById('welcomeMessage');
         const profilePic = document.getElementById('profilePic');
+        const loginButton = document.getElementById('loginButton');
 
-        const provider = new GoogleAuthProvider();
-
-        // 로그인 상태에 따라 계정 관리 버튼 및 메시지 조정
+        // 로그인 상태에 따라 메시지 및 버튼 조정
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                
+                
+                
                 // 로그인된 상태
                 get(ref(database, 'users/' + user.uid)).then((snapshot) => {
                     if (snapshot.exists() && snapshot.val().nickname) {
@@ -172,31 +174,43 @@
                         welcomeMessage.textContent = `안녕하세요, ${user.displayName}님!`;
                     }
 
-                    profilePic.textContent = '계정 관리';
-                    profilePic.href = 'account_setting.html'; // 계정 관리 페이지로 이동
+                    profilePic.style.display = 'block'; // 프로필 사진 보이기
+                    loginButton.style.display = 'none'; // 로그인 버튼 숨기기
 
                     // 프로필 사진 가져오기
+                    if(profilePic.src==!null) {
+                        profilePic.src = user.photoURL
+                    }
                     const profilePicRef = storageRef(storage, 'profile_pictures/' + user.uid);
                     getDownloadURL(profilePicRef).then((url) => {
-                        if(profilePicRef!=null){
-                            profilePic.src = url;
-                        }
-                        else{
-                            profilePic.src = 'default_profile.png';
-                        }
+                        profilePic.src = url;
                     }).catch((error) => {
                         console.error("프로필 사진을 불러오는 중 오류 발생:", error);
                     });
 
-                }).catch((error) => {
+                }).catch((error) => {   
                     console.error('사용자 데이터 가져오기 실패:', error);
                 });
 
             } else {
                 // 로그인되지 않은 상태
                 welcomeMessage.textContent = '게임을 즐기려면 로그인하세요!';
-                profilePic.textContent = '로그인';
-                profilePic.href = 'login.html'; // 로그인 페이지로 이동
+                profilePic.style.display = 'none'; // 프로필 사진 숨기기
+                loginButton.style.display = 'inline'; // 로그인 버튼 보이기
+                loginButton.onclick = function() {
+                    window.location.href = 'login.html'; // 로그인 페이지로 이동
+                    signInWithPopup(auth, provider).then((result) => {
+                        const user = result.user;
+                        welcomeMessage.textContent = `안녕하세요, ${user.displayName}님!`;
+                        profilePic.style.display = 'block'; // 프로필 사진 보이기
+                        loginButton.style.display = 'none'; // 로그인 버튼 숨기기
+                        
+                        // 프로필 사진 설정
+                        profilePic.src = user.photoURL; // 프로필 사진이 없으면 기본 사진 사용
+                    }).catch((error) => {
+                        console.error('로그인 오류:', error);
+                    });
+                };
             }
         });
     </script>
