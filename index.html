@@ -29,6 +29,13 @@
             height: 60px;
             margin-left: 20px;
         }
+        .profile-picture {
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
         h1 {
             margin: 0;
             font-size: 2rem;
@@ -102,6 +109,7 @@
         <img src="gamelogo.svg" alt="게임 로고">
         <h1>땅따먹기 게임</h1>
         <nav>
+            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진"> <!-- 기본 프로필 사진 -->
             <a href="#" id="accountManagement">계정 관리</a> <!-- 계정 관리 버튼 -->
         </nav>
     </header>
@@ -127,6 +135,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
@@ -142,9 +151,11 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
+        const storage = getStorage(app);
 
         const welcomeMessage = document.getElementById('welcomeMessage');
         const accountManagement = document.getElementById('accountManagement');
+        const profilePic = document.getElementById('profilePic');
 
         // 로그인 상태에 따라 계정 관리 버튼 및 메시지 조정
         onAuthStateChanged(auth, (user) => {
@@ -159,6 +170,14 @@
 
                     accountManagement.textContent = '계정 관리';
                     accountManagement.href = 'account_setting.html'; // 계정 관리 페이지로 이동
+
+                    // 프로필 사진 가져오기
+                    const profilePicRef = storageRef(storage, 'profile_pictures/' + user.uid);
+                    getDownloadURL(profilePicRef).then((url) => {
+                        profilePic.src = url;
+                    }).catch((error) => {
+                        console.error("프로필 사진을 불러오는 중 오류 발생:", error);
+                    });
 
                 }).catch((error) => {
                     console.error('사용자 데이터 가져오기 실패:', error);
