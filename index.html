@@ -36,6 +36,9 @@
             object-fit: cover;
             margin-right: 20px;
         }
+        .profile-picture:hover {
+            cursor: pointer;
+        }
         h1 {
             margin: 0;
             font-size: 2rem;
@@ -109,8 +112,8 @@
         <img src="gamelogo.svg" alt="게임 로고">
         <h1>땅따먹기 게임</h1>
         <nav>
-            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진"> <!-- 기본 프로필 사진 -->
-            <a href="#" id="accountManagement">계정 관리</a> <!-- 계정 관리 버튼 -->
+            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진" onclick="window.location.href = 'account_setting.html'"> <!-- 기본 프로필 사진 -->
+            <a href="#" id="accountManagement"></a> 
         </nav>
     </header>
 
@@ -133,7 +136,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
         import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
@@ -154,8 +157,9 @@
         const storage = getStorage(app);
 
         const welcomeMessage = document.getElementById('welcomeMessage');
-        const accountManagement = document.getElementById('accountManagement');
         const profilePic = document.getElementById('profilePic');
+
+        const provider = new GoogleAuthProvider();
 
         // 로그인 상태에 따라 계정 관리 버튼 및 메시지 조정
         onAuthStateChanged(auth, (user) => {
@@ -165,16 +169,21 @@
                     if (snapshot.exists() && snapshot.val().nickname) {
                         welcomeMessage.textContent = `안녕하세요, ${snapshot.val().nickname}님!`;
                     } else {
-                        welcomeMessage.textContent = `안녕하세요, ${user.email}님!`;
+                        welcomeMessage.textContent = `안녕하세요, ${user.displayName}님!`;
                     }
 
-                    accountManagement.textContent = '계정 관리';
-                    accountManagement.href = 'account_setting.html'; // 계정 관리 페이지로 이동
+                    profilePic.textContent = '계정 관리';
+                    profilePic.href = 'account_setting.html'; // 계정 관리 페이지로 이동
 
                     // 프로필 사진 가져오기
                     const profilePicRef = storageRef(storage, 'profile_pictures/' + user.uid);
                     getDownloadURL(profilePicRef).then((url) => {
-                        profilePic.src = url;
+                        if(profilePicRef!=null){
+                            profilePic.src = url;
+                        }
+                        else{
+                            profilePic.src = 'default_profile.png';
+                        }
                     }).catch((error) => {
                         console.error("프로필 사진을 불러오는 중 오류 발생:", error);
                     });
@@ -186,8 +195,8 @@
             } else {
                 // 로그인되지 않은 상태
                 welcomeMessage.textContent = '게임을 즐기려면 로그인하세요!';
-                accountManagement.textContent = '로그인';
-                accountManagement.href = 'login.html'; // 로그인 페이지로 이동
+                profilePic.textContent = '로그인';
+                profilePic.href = 'login.html'; // 로그인 페이지로 이동
             }
         });
     </script>

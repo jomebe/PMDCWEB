@@ -98,11 +98,11 @@
                     // 사용자 정보 확인
                     get(ref(database, 'users/' + user.uid)).then((snapshot) => {
                         if (snapshot.exists() && snapshot.val().nickname) {
-                            // 닉네임이 이미 설정되어 있으면 메인 페이지로 이동
+                            
                             window.location.href = 'index.html';
                         } else {
                             // 닉네임이 설정되어 있지 않으면 닉네임 설정 페이지로 이동
-                            window.location.href = 'acount_setting.html';
+                            window.location.href = 'index.html';
                         }
                     }).catch((error) => {
                         console.error("사용자 정보 확인 실패:", error);
@@ -136,7 +136,7 @@
                             window.location.href = 'index.html';
                         } else {
                             // 닉네임이 설정되어 있지 않으면 닉네임 설정 페이지로 이동
-                            window.location.href = 'acount_setting.html';
+                            window.location.href = 'index.html';
                         }
                     }).catch((error) => {
                         console.error("사용자 정보 확인 실패:", error);
