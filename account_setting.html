@@ -80,6 +80,24 @@
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
+        .profile-pic-preview-container {
+            width: 100px; /* 원하는 크기로 조절 */
+            height: 100px; /* 원하는 크기로 조절 */
+            overflow: hidden; /* 넘치는 부분을 잘라냄 */
+            border-radius: 50%; /* 원형으로 만들기 */
+            display: flex; /* 중앙 정렬을 위해 flex 사용 */
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            margin-top: 0rem; /* 위쪽 여백 */
+            margin-bottom: 1rem;
+        }
+        
+        #profilePicPreview {
+            width: 100%; /* 컨테이너에 맞춰 100% 너비 */
+            height: 100%; /* 컨테이너에 맞춰 100% 높이 */
+            object-fit: cover; /* 이미지를 잘라내기 */
+        }
+        
     </style>
 </head>
 <body>
@@ -111,9 +129,14 @@
         <!-- 프로필 사진 업로드 -->
         <div class="section-title">프로필 사진 업로드</div>
         <form id="profilePicForm">
-            <input type="file" id="profilePic" accept="image/*"/>
+            <input type="file" id="profilePic" accept="image/*" required/>
+            <div class="profile-pic-preview-container">
+                <img id="profilePicPreview" src="" alt="프로필 사진 미리보기" style="display:none;"/>
+            </div>
             <button type="submit">사진 업로드</button>
         </form>
+
+
 
         <!-- 계정 삭제 -->
          <button id="logoutButton" class="delete-account">로그아웃</button>
@@ -219,6 +242,22 @@
                         });
                     } else {
                         alert("사진을 선택해주세요.");
+                    }
+                });
+                // 프로필 사진 업로드 처리
+                document.getElementById("profilePic").addEventListener("change", (event) => {
+                    const file = event.target.files[0];
+                    const preview = document.getElementById("profilePicPreview");
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block'; // 미리보기 보이기
+                        };
+                        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL을 생성
+                    } else {
+                        preview.style.display = 'none'; // 파일이 선택되지 않으면 미리보기 숨기기
                     }
                 });
 
