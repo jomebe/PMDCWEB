@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* 깔끔하고 현대적인 폰트 */
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: #333;
             background-color: #f0f8ff;
@@ -33,11 +33,44 @@
             border-radius: 50%;
             height: 50px;
             width: 50px;
-            object-fit: cover;
             margin-right: 20px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
         }
         .profile-picture:hover {
             cursor: pointer;
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-skeleton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
         }
         h1 {
             margin: 0;
@@ -99,12 +132,6 @@
         .button:hover {
             background-color: #D23131; /* 로고 빨강색 */
         }
-        #welcomeMessage {
-            text-align: right;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            color: #555;
-        }
     </style>
 </head>
 <body>
@@ -112,13 +139,15 @@
         <img src="gamelogo.svg" alt="게임 로고">
         <h1>땅따먹기 게임</h1>
         <nav>
-            <img id="profilePic" class="profile-picture" src="default_profile.png" alt="프로필 사진" onclick="window.location.href = 'account_setting.html';"> <!-- 기본 프로필 사진 -->
-            <a id="loginButton" href="#" style="display: none;">로그인</a> <!-- 로그인 버튼 -->
+            <div class="profile-container">
+                <div id="profileSkeleton" class="profile-skeleton"></div>
+                <img id="profilePic" class="profile-picture" src="/api/placeholder/50/50" alt="프로필 사진" style="opacity: 0;" onclick="window.location.href = 'account_setting.html';">
+            </div>
+            <a id="loginButton" href="#" style="display: none;">로그인</a>
         </nav>
     </header>
 
     <div class="container">
-        <div id="welcomeMessage"></div>
 
         <div class="game-info">
             <h2>게임 소개</h2>
@@ -156,62 +185,80 @@
         const database = getDatabase(app);
         const storage = getStorage(app);
 
-        const welcomeMessage = document.getElementById('welcomeMessage');
         const profilePic = document.getElementById('profilePic');
+        const profileSkeleton = document.getElementById('profileSkeleton');
         const loginButton = document.getElementById('loginButton');
 
-        // 로그인 상태에 따라 메시지 및 버튼 조정
-        onAuthStateChanged(auth, (user) => {
+        // 캐시 키 생성 함수
+        const generateCacheKey = (uid) => `profile_pic_${uid}_${new Date().getTime()}`;
+
+        // 프로필 사진 로드 함수
+        async function loadProfilePicture(uid) {
+            try {
+                // 캐시된 URL 확인
+                const cachedUrl = sessionStorage.getItem(`profile_pic_${uid}`);
+                if (cachedUrl) {
+                    await setProfilePicture(cachedUrl);
+                    return;
+                }
+
+                const profilePicRef = storageRef(storage, 'profile_pictures/' + uid);
+                const url = await getDownloadURL(profilePicRef);
+                
+                // URL 캐싱
+                sessionStorage.setItem(`profile_pic_${uid}`, url);
+                await setProfilePicture(url);
+            } catch (error) {
+                console.error("프로필 사진 로드 실패:", error);
+                // 에러 시 기본 이미지 표시
+                setProfilePicture('/api/placeholder/50/50');
+            }
+        }
+
+        // 프로필 사진 설정 함수
+        async function setProfilePicture(url) {
+            return new Promise((resolve) => {
+                profilePic.onload = () => {
+                    profilePic.style.opacity = '1';
+                    profileSkeleton.style.display = 'none';
+                    resolve();
+                };
+                profilePic.src = url;
+            });
+        }
+
+        // 로그인 상태 변경 감지
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                
-                
-                
-                // 로그인된 상태
-                get(ref(database, 'users/' + user.uid)).then((snapshot) => {
-                    if (snapshot.exists() && snapshot.val().nickname) {
-                        welcomeMessage.textContent = `안녕하세요, ${snapshot.val().nickname}님!`;
-                    } else {
-                        welcomeMessage.textContent = `안녕하세요, ${user.displayName}님!`;
-                    }
+                profilePic.style.display = 'block';
+                profileSkeleton.style.display = 'block';
+                loginButton.style.display = 'none';
 
-                    profilePic.style.display = 'block'; // 프로필 사진 보이기
-                    loginButton.style.display = 'none'; // 로그인 버튼 숨기기
-
-                    // 프로필 사진 가져오기
-                    if(profilePic.src==!null) {
-                        profilePic.src = user.photoURL
-                    }
-                    const profilePicRef = storageRef(storage, 'profile_pictures/' + user.uid);
-                    getDownloadURL(profilePicRef).then((url) => {
-                        profilePic.src = url;
-                    }).catch((error) => {
-                        console.error("프로필 사진을 불러오는 중 오류 발생:", error);
-                    });
-
-                }).catch((error) => {   
-                    console.error('사용자 데이터 가져오기 실패:', error);
-                });
-
+                try {
+                    // 프로필 사진 즉시 로드 시도
+                    await loadProfilePicture(user.uid);
+                } catch (error) {
+                    console.error('프로필 사진 로드 실패:', error);
+                }
             } else {
-                // 로그인되지 않은 상태
-                welcomeMessage.textContent = '게임을 즐기려면 로그인하세요!';
-                profilePic.style.display = 'none'; // 프로필 사진 숨기기
-                loginButton.style.display = 'inline'; // 로그인 버튼 보이기
-                loginButton.onclick = function() {
-                    window.location.href = 'login.html'; // 로그인 페이지로 이동
-                    signInWithPopup(auth, provider).then((result) => {
-                        const user = result.user;
-                        welcomeMessage.textContent = `안녕하세요, ${user.displayName}님!`;
-                        profilePic.style.display = 'block'; // 프로필 사진 보이기
-                        loginButton.style.display = 'none'; // 로그인 버튼 숨기기
-                        
-                        // 프로필 사진 설정
-                        profilePic.src = user.photoURL; // 프로필 사진이 없으면 기본 사진 사용
-                    }).catch((error) => {
-                        console.error('로그인 오류:', error);
-                    });
+                profilePic.style.display = 'none';
+                profileSkeleton.style.display = 'none';
+                loginButton.style.display = 'inline';
+                
+                loginButton.onclick = () => {
+                    window.location.href = 'login.html';
                 };
             }
+        });
+
+        // 페이지 언로드 시 이전 캐시 정리
+        window.addEventListener('beforeunload', () => {
+            const cacheKeys = Object.keys(sessionStorage);
+            const oldCacheKeys = cacheKeys.filter(key => 
+                key.startsWith('profile_pic_') && 
+                Date.now() - parseInt(key.split('_').pop()) > 3600000 // 1시간 이상 된 캐시 삭제
+            );
+            oldCacheKeys.forEach(key => sessionStorage.removeItem(key));
         });
     </script>
 </body>

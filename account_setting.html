@@ -172,6 +172,22 @@
         .upload-button:hover {
             background-color: #f8f9fa;
         }
+        .skeleton {
+            background-color: #e0e0e0;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-color: #e0e0e0;
+            }
+            50% {
+                background-color: #f0f0f0;
+            }
+            100% {
+                background-color: #e0e0e0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -182,8 +198,8 @@
 
         <div class="card">
             <div class="profile-section">
-                <div class="profile-pic-preview-container">
-                    <img id="profilePicPreview" src="/api/placeholder/96/96" alt="프로필 사진"/>
+                <div class="profile-pic-preview-container skeleton">
+                    <img id="profilePicPreview" src="/api/placeholder/96/96" alt=""/>
                 </div>
                 <div>
                     <div class="account-info" id="accountInfo">로그인됨: user@example.com</div>
