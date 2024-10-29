@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Landing Page</title>
     <style>
-        /* 이전 스타일 유지 */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
         body, html {
@@ -20,10 +19,10 @@
 
         .video-container {
             position: fixed;
-            top: 60px; /* 영상이 화면 상단에 맞도록 */
+            top: 0; /* 비디오가 화면 상단에 맞도록 */
             left: 0;
             width: 100%;
-            height: 115vh; /* 화면 전체 높이를 사용 */
+            height: 100vh; /* 화면 전체 높이를 사용 */
             overflow: hidden;
             z-index: 1;
         }
@@ -31,7 +30,7 @@
         .video-container video {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 비율에 맞춰 비디오가 잘리지 않도록 */
+            object-fit: cover; /* 비율에 맞춰 비디오가 잘리도록 */
             position: relative;
             z-index: 1;
         }
@@ -58,7 +57,6 @@
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            box-sizing: border-box;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
@@ -93,14 +91,19 @@
             transform: translateY(-2px);
         }
 
-        /* 콘텐츠 섹션 스타일 수정 */
+        .content-container {
+            margin-top: 60px; /* 네비게이션 바 높이 */
+            position: relative;
+            z-index: 3;
+        }
+
         .section {
             min-height: 100vh; /* 섹션 최소 높이 설정 */
-            padding: 150px 20px;
+            padding: 80px 20px; /* 상단 패딩 조정 */
             text-align: center;
             position: relative;
-            background: rgba(15,15,15,0.85);
-            backdrop-filter: blur(5px);
+            background: rgba(15,15,15,0.5);
+            backdrop-filter: blur(0px);
         }
 
         .section::before {
@@ -247,12 +250,6 @@
                 text-shadow: 0 0 20px rgba(255,255,255,0.5),
                             0 0 30px rgba(255,255,255,0.3);
             }
-        }
-
-        .content-container {
-            margin-top: 100vh;
-            position: relative;
-            z-index: 3;
         }
 
         @media (max-width: 768px) {
