@@ -36,7 +36,6 @@
             z-index: 1;
         }
         
-        
         .video-container::after {
             content: '';
             position: absolute;
@@ -62,15 +61,18 @@
             box-sizing: border-box;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
+        
         .navbar img {
             height: 40px;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
+
         .navbar .nav-links {
             display: flex;
             gap: 30px;
             margin-right: 30px;
         }
+
         .navbar a {
             color: #fff;
             text-decoration: none;
@@ -83,6 +85,7 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
+
         .navbar a:hover {
             border: 1px solid rgba(255,255,255,0.3);
             background: rgba(255,255,255,0.1);
@@ -99,6 +102,7 @@
             background: rgba(15,15,15,0.85);
             backdrop-filter: blur(5px);
         }
+
         .section::before {
             content: '';
             position: absolute;
@@ -109,6 +113,7 @@
             background: linear-gradient(transparent, rgba(15,15,15,0.85));
             z-index: 3;
         }
+
         .section h2 {
             margin-bottom: 40px;
             font-size: 48px;
@@ -120,6 +125,7 @@
             position: relative;
             z-index: 4;
         }
+
         .section p {
             line-height: 1.8;
             font-size: 20px;
@@ -276,74 +282,92 @@
 </head>
 <body>
     <div class="navbar">
-        <img src="gamelogo.svg" alt="Game Logo">
+        <a href="#top"><img src="gamelogo.svg" alt="Game Logo"></a>
         <div class="nav-links">
-            <a href="#game-description">Info</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
             <a href="#game-download">Download</a>
+            <a href="#requirements">Requirements</a>
         </div>
     </div>
 
     <div class="video-container">
-        <video autoplay muted loop>
-            <source src="webmainvideo.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <video src="webmainvideo.mp4" autoplay loop muted></video>
     </div>
-    
 
     <div class="content-container">
-        <section id="game-description" class="section">
-            <h2>Info</h2>
-            <p>이 게임은 모험을 주제로 한 새로운 경험을 제공합니다. 다양한 도전과 숨겨진 보상을 찾아내세요!</p>
-            <p>끝없는 모험과 함께 색다른 게임 플레이를 경험하실 수 있습니다.</p>
-            <p>여러분만의 고유한 캐릭터를 만들고, 광활한 오픈 월드를 탐험하세요.</p>
-        </section>
+        <div class="section" id="top">
+            <h2>Welcome to Our Game</h2>
+            <p>Experience the thrill of gaming like never before.</p>
+        </div>
 
-        <section id="game-download" class="section">
-            <h2>Download</h2>
-            <p>지금 바로 게임을 다운로드하고 새로운 세계로의 여정을 시작하세요!</p>
-            
+        <div class="section" id="about">
+            <h2>About the Game</h2>
+            <p>Our game offers a unique blend of strategy and action...</p>
+        </div>
+
+        <div class="section" id="features">
+            <h2>Game Features</h2>
+            <p>Explore stunning graphics, immersive gameplay, and more!</p>
+        </div>
+
+        <div class="section" id="game-download">
+            <h2>Download the Game</h2>
             <div class="download-options">
-                <a href="downloads/game-windows.zip" class="download-btn windows" download>
-                    <svg class="platform-icon" viewBox="0 0 24 24">
-                        <path d="M3 5.557l7.357-1.002.004 7.097-7.354.042L3 5.557zm7.354 6.913l.006 7.103-7.354-1.011v-6.14l7.348.048zm.892-8.046L21.001 3v8.562l-9.755.077V4.424zm9.758 8.113l-.003 8.523-9.755-1.378-.014-7.161 9.772.016z"/>
-                    </svg>
-                    Windows 다운로드
-                </a>
-                <a href="downloads/game-mac.zip" class="download-btn mac" download>
-                    <svg class="platform-icon" viewBox="0 0 24 24">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
-                    Mac 다운로드
-                </a>
+                <a href="#" class="download-btn windows">Download for Windows</a>
+                <a href="#" class="download-btn mac">Download for Mac</a>
             </div>
+        </div>
 
+        <div class="section" id="requirements">
+            <h2>System Requirements</h2>
             <div class="system-requirements">
-                <h3>시스템 요구사항</h3>
+                <h3>Minimum Requirements</h3>
                 <div class="requirements-grid">
                     <div>
-                        <h4>최소 사양</h4>
+                        <h4>OS</h4>
                         <ul>
-                            <li>OS: Windows 10 64-bit</li>
-                            <li>프로세서: Intel Core i5-4460</li>
-                            <li>메모리: 8GB RAM</li>
-                            <li>그래픽: NVIDIA GTX 960</li>
-                            <li>저장공간: 50GB</li>
+                            <li>Windows 10 or later</li>
                         </ul>
                     </div>
                     <div>
-                        <h4>권장 사양</h4>
+                        <h4>Processor</h4>
                         <ul>
-                            <li>OS: Windows 10 64-bit</li>
-                            <li>프로세서: Intel Core i7-8700K</li>
-                            <li>메모리: 16GB RAM</li>
-                            <li>그래픽: NVIDIA RTX 2060</li>
-                            <li>저장공간: 50GB SSD</li>
+                            <li>Intel Core i5 or equivalent</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Memory</h4>
+                        <ul>
+                            <li>8 GB RAM</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Graphics</h4>
+                        <ul>
+                            <li>NVIDIA GeForce GTX 660 or equivalent</li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
+
+    <script>
+        // Smooth scrolling
+        const links = document.querySelectorAll('.navbar a');
+
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
