@@ -15,6 +15,8 @@
             /*overflow-x: hidden;*/
             background-color: #0a0a0a;
             color: #ffffff;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
         }
 
         .video-container {
@@ -104,6 +106,8 @@
             position: relative;
             background: rgba(15,15,15,0.5);
             backdrop-filter: blur(0px);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         .section::before {
@@ -274,10 +278,39 @@
                 padding: 15px 30px;
                 font-size: 16px;
             }
+            .scroll-btn {
+                position: fixed;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                z-index: 1000;
+            }
+            .scroll-btn button {
+                width: 40px;
+                height: 40px;
+                border: none;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(5px);
+            }
+            .scroll-btn button:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.1);
+            }
         }
     </style>
 </head>
 <body>
+    <div class="scroll-btn">
+        <button onclick="scrollToPrev()">↑</button>
+        <button onclick="scrollToNext()">↓</button>
+    </div>
     <div class="navbar">
         <a href="#top"><img src="gamelogo.svg" alt="Game Logo"></a>
         <div class="nav-links">
@@ -351,19 +384,69 @@
     </div>
 
     <script>
-        // Smooth scrolling
-        const links = document.querySelectorAll('.navbar a');
+        // 섹션 스크롤 관련 JavaScript
+        let currentSectionIndex = 0;
+        const sections = document.querySelectorAll('.section');
 
+        function scrollToSection(index) {
+            if (index >= 0 && index < sections.length) {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+                currentSectionIndex = index;
+            }
+        }
+
+        function scrollToNext() {
+            scrollToSection(currentSectionIndex + 1);
+        }
+
+        function scrollToPrev() {
+            scrollToSection(currentSectionIndex - 1);
+        }
+
+        // 휠 이벤트 처리
+        let isScrolling = false;
+        window.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            
+            if (!isScrolling) {
+                isScrolling = true;
+                
+                if (e.deltaY > 0) {
+                    scrollToNext();
+                } else {
+                    scrollToPrev();
+                }
+
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000); // 스크롤 애니메이션 완료 시간
+            }
+        }, { passive: false });
+
+        // 네비게이션 메뉴 클릭 처리
+        const links = document.querySelectorAll('.navbar a');
         links.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetSection = document.querySelector(targetId);
-
+                
                 if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    const index = Array.from(sections).indexOf(targetSection);
+                    scrollToSection(index);
                 }
             });
+        });
+
+        // 키보드 방향키 처리
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                scrollToNext();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                scrollToPrev();
+            }
         });
     </script>
 </body>
