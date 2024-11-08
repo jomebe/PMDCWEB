@@ -14,8 +14,9 @@
             font-family: 'Orbitron', Arial, sans-serif;
             background-color: #0a0a0a;
             color: #ffffff;
-            overflow: hidden; /* 전체 스크롤바 제거 */
+            overflow: hidden;
         }
+
 
         .video-container {
             position: fixed;
@@ -101,7 +102,7 @@
             display: none;
         }
 
-         /* 시스템 요구사항 섹션 */
+        /* 시스템 요구사항 섹션 */
         .section {
             min-height: 100vh;
             padding: 80px 20px;
@@ -321,6 +322,111 @@
                 transform: scale(1.1);
             }
         }
+        #features ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #features li {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        #features li:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+        }
+        /* 로그인 모달 스타일 */
+    .login-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        background: rgba(255,255,255,0.95);
+        padding: 2rem;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 400px;
+        color: #000;
+    }
+
+    .login-container h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .login-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .login-container input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .login-container button {
+        padding: 12px;
+        background: linear-gradient(45deg, #ff3366, #ff6b6b);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .login-container button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255,51,102,0.3);
+    }
+
+    .login-container .google-btn {
+        background: #fff;
+        color: #000;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* 네비게이션 바에 로그인 버튼 추가 */
+    .nav-links .login-btn {
+        background: linear-gradient(45deg, #ff3366, #ff6b6b);
+        border-radius: 20px;
+    }
     </style>
 </head>
 <body>
@@ -335,6 +441,26 @@
             <a href="#features">Features</a>
             <a href="#game-download">Download</a>
             <a href="#requirements">Requirements</a>
+            <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
+        </div>
+    </div>
+
+    <!-- 로그인 모달 추가 -->
+    <div class="login-modal" id="loginModal">
+        <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+        <div class="login-container">
+            <form id="loginForm">
+                <h3>Log in with</h3>
+                <button type="button" id="googleLogin" class="google-btn">
+                    <img src="./googlelogo.svg" alt="" width="20" height="20">
+                    Google
+                </button>
+                <input type="email" id="signInEmail" placeholder="Email address" required/>
+                <input type="password" id="signInPassword" placeholder="Password" required/>
+                <button type="submit" id="signInButton">Log In</button>
+                <a href="#" style="text-align: center;">Forgot Password?</a>
+            </form>
+            <p style="text-align: center;">Don't have account? <a href="#" onclick="window.open('signup.html', '_blank')">Signup now</a></p>
         </div>
     </div>
 
@@ -345,19 +471,24 @@
     <div class="content-container">
         <div class="section" id="top">
             <h2>Welcome to Our Game</h2>
-            <p>Experience the thrill of gaming like never before.</p>
+            <p>Step into the strategic battlefield of hexagonal lands and conquer more territory than your opponent to claim victory!</p>
         </div>
-
+    
         <div class="section" id="about">
             <h2>About the Game</h2>
-            <p>Our game offers a unique blend of strategy and action...</p>
+            <p>Our game combines a unique hexagonal land system with strategic challenges and intense missions. Engage with friends or rivals in a race against time to secure as many points as possible!</p>
         </div>
-
+    
         <div class="section" id="features">
             <h2>Game Features</h2>
-            <p>Explore stunning graphics, immersive gameplay, and more!</p>
+            <ul>
+                <li>Real-time multiplayer with strategic hexagonal land capture mechanics</li>
+                <li>Exciting missions with varying difficulty levels that reward you based on your skill</li>
+                <li>Dynamic duel missions where you can steal territory and points from opponents</li>
+                <li>Hidden cards that can turn he game in your favor at the final reveal!</li>
+            </ul>
         </div>
-
+    
         <div class="section" id="game-download">
             <h2>Download the Game</h2>
             <div class="download-options">
@@ -365,7 +496,7 @@
                 <a href="#" class="download-btn mac">Download for Mac</a>
             </div>
         </div>
-
+    
         <div class="section" id="requirements">
             <h2>System Requirements</h2>
             <div class="system-requirements">
@@ -375,6 +506,7 @@
                         <h4>OS</h4>
                         <ul>
                             <li>Windows 10 or later</li>
+                            <li>Mac OS 10.13 or later</li>
                         </ul>
                     </div>
                     <div>
@@ -389,12 +521,110 @@
                             <li>8 GB RAM</li>
                         </ul>
                     </div>
+                    <div>
+                        <h4>Graphics</h4>
+                        <ul>
+                            <li>NVIDIA GTX 960 / AMD Radeon R7 370 or higher</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script type="module">
+        // Firebase 설정 및 인증 코드
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
+            authDomain: "cta-dicon1.firebaseapp.com",
+            projectId: "cta-dicon1",
+            storageBucket: "cta-dicon1.appspot.com",
+            messagingSenderId: "319134783624",
+            appId: "1:319134783624:web:ee5e043f4a6a72b37b673d",
+            measurementId: "G-2RVKF8G7Y7",
+            databaseURL: "https://cta-dicon1-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+        const provider = new GoogleAuthProvider();
+
+        // 로그인 폼 이벤트 리스너
+        document.getElementById("loginForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const email = document.getElementById("signInEmail").value;
+            const password = document.getElementById("signInPassword").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("로그인 성공:", user);
+                    closeLoginModal();
+                    updateLoginStatus(true);
+                })
+                .catch((error) => {
+                    console.error("로그인 실패:", error.message);
+                    alert("로그인 실패: " + error.message);
+                });
+        });
+
+        // Google 로그인
+        document.getElementById('googleLogin').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("Google 로그인 성공:", user);
+                    closeLoginModal();
+                    updateLoginStatus(true);
+                })
+                .catch((error) => {
+                    console.error("Google 로그인 실패:", error.message);
+                    alert("로그인 실패: " + error.message);
+                });
+        });
+
+        // 로그인 상태에 따라 UI 업데이트
+        function updateLoginStatus(isLoggedIn) {
+            const loginBtn = document.querySelector('.login-btn');
+            if (isLoggedIn) {
+                loginBtn.textContent = 'Profile';
+                loginBtn.onclick = () => {
+                    // 프로필 페이지로 이동하거나 프로필 모달 표시
+                };
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.onclick = openLoginModal;
+            }
+        }
+
+        // 초기 로그인 상태 확인
+        auth.onAuthStateChanged((user) => {
+            updateLoginStatus(!!user);
+        });
+    </script>
 
     <script>
+        // 모달 제어 함수
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // 모달 외부 클릭시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target == modal) {
+                closeLoginModal();
+            }
+        }
         // 섹션 스크롤 관련 JavaScript
         let currentSectionIndex = 0;
         const sections = document.querySelectorAll('.section');
