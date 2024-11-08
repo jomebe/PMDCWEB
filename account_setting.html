@@ -60,28 +60,6 @@
             font-weight: 500;
         }
 
-        .profile-section {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .profile-pic-preview-container {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 24px;
-            border: 3px solid #fff;
-            box-shadow: 0 1px 2px rgba(60,64,67,0.3);
-        }
-
-        #profilePicPreview {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .account-info {
             color: #5f6368;
             margin-bottom: 1rem;
@@ -152,63 +130,12 @@
             color: #5f6368;
             font-size: 14px;
         }
-
-        #profilePic {
-            display: none;
-        }
-
-        .upload-button {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #fff;
-            color: #1a73e8;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .upload-button:hover {
-            background-color: #f8f9fa;
-        }
-        .skeleton {
-            background-color: #e0e0e0;
-            animation: skeleton-loading 1.5s infinite;
-        }
-        
-        @keyframes skeleton-loading {
-            0% {
-                background-color: #e0e0e0;
-            }
-            50% {
-                background-color: #f0f0f0;
-            }
-            100% {
-                background-color: #e0e0e0;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>계정 관리</h1>
-        </div>
-
-        <div class="card">
-            <div class="profile-section">
-                <div class="profile-pic-preview-container skeleton">
-                    <img id="profilePicPreview" src="/api/placeholder/96/96" alt=""/>
-                </div>
-                <div>
-                    <div class="account-info" id="accountInfo">로그인됨: user@example.com</div>
-                    <label class="upload-button">
-                        프로필 사진 변경
-                        <input type="file" id="profilePic" accept="image/*"/>
-                    </label>
-                </div>
-            </div>
         </div>
 
         <div class="card">
@@ -257,11 +184,9 @@
     </div>
 
     <script type="module">
-        // 기존 JavaScript 코드는 동일하게 유지
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, updateEmail, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
@@ -277,7 +202,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
-        const storage = getStorage(app);
 
         document.getElementById('backButton').addEventListener('click', () => {
             window.history.back();
@@ -288,9 +212,6 @@
                 get(ref(database, 'users/' + user.uid)).then((snapshot) => {
                     if (snapshot.exists()) {
                         document.getElementById("accountInfo").textContent = `${user.email}`;
-                        if (snapshot.val().profilePicURL) {
-                            document.getElementById("profilePicPreview").src = snapshot.val().profilePicURL;
-                        }
                     } else {
                         document.getElementById("accountInfo").textContent = `${user.email}`;
                     }
@@ -332,32 +253,9 @@
                     });
                 });
 
-                document.getElementById("profilePic").addEventListener("change", (event) => {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            document.getElementById("profilePicPreview").src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-
-                        const profilePicRef = storageRef(storage, 'profile_pictures/' + user.uid);
-                        uploadBytes(profilePicRef, file).then((snapshot) => {
-                            getDownloadURL(snapshot.ref).then((downloadURL) => {
-                                set(ref(database, 'users/' + user.uid + '/profilePicURL'), downloadURL).then(() => {
-                                    alert("프로필 사진이 업로드되었습니다.");
-                                });
-                            });
-                        }).catch((error) => {
-                            alert("프로필 사진 업로드 실패: " + error.message);
-                        });
-                    }
-                });
-
                 document.getElementById("logoutButton").addEventListener("click", () => {
                     signOut(auth).then(() => {
-                        alert("로그아웃되었습니다.");
-                        window.location.href = 'index.html';
+                        window.location.href = "login.html";
                     }).catch((error) => {
                         alert("로그아웃 실패: " + error.message);
                     });
@@ -367,15 +265,12 @@
                     if (confirm("정말로 계정을 삭제하시겠습니까?")) {
                         deleteUser(user).then(() => {
                             alert("계정이 삭제되었습니다.");
-                            window.location.href = 'login.html';
+                            window.location.href = "login.html";
                         }).catch((error) => {
                             alert("계정 삭제 실패: " + error.message);
                         });
                     }
                 });
-
-            } else {
-                window.location.href = 'login.html';
             }
         });
     </script>

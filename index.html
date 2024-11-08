@@ -476,17 +476,18 @@
     
         <div class="section" id="about">
             <h2>About the Game</h2>
-            <p>Our game combines a unique hexagonal land system with strategic challenges and intense missions. Engage with friends or rivals in a race against time to secure as many points as possible!</p>
+            <p>저희 게임은 땅따먹기 게임과 미니게임의 특징을 합하여 만들었습니다. </p>
+                <p>미니게임에서 승리해 상대보다 더 많은 포인트를 차지하고 보상을 획득하세요!</p>
+                <p>37개의 땅에서 한정된 자원으로 최대한의 전략을 구성해 보세요! </p>
         </div>
     
-        <div class="section" id="features">
+        <div id="feature" class="section feature-container">
             <h2>Game Features</h2>
-            <ul>
-                <li>Real-time multiplayer with strategic hexagonal land capture mechanics</li>
-                <li>Exciting missions with varying difficulty levels that reward you based on your skill</li>
-                <li>Dynamic duel missions where you can steal territory and points from opponents</li>
-                <li>Hidden cards that can turn he game in your favor at the final reveal!</li>
-            </ul>
+
+            <p>게임 시작 시 제공되는 방해용, 점령용 카드를 통해 전략적 플레이가 가능합니다</p>
+            <p>미니게임은 점령과 결투용으로 나누어져 있어 다양한 플레이를 제공합니다. </p>
+            <p>점령용 미니게임에서는 상,중,하 난이도 선택에 따라 획득하는 포인트가 달라집니다.  </p>
+            <p>상대방의 땅을 2등분시켜 2배의 포인트를 얻어보세요.  </p>
         </div>
     
         <div class="section" id="game-download">
@@ -594,7 +595,6 @@
             if (isLoggedIn) {
                 loginBtn.textContent = 'Profile';
                 loginBtn.onclick = () => {
-                    // 프로필 페이지로 이동하거나 프로필 모달 표시
                 };
             } else {
                 loginBtn.textContent = 'Login';
