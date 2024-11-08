@@ -1,278 +1,282 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>계정 관리</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #202124;
-            background-color: #f1f3f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: #202124;
-            margin-left: 10px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            padding: 24px;
-            margin-bottom: 1rem;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            color: #202124;
-            font-weight: 500;
-        }
-
-        .account-info {
-            color: #5f6368;
-            margin-bottom: 1rem;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-bottom: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus {
-            border-color: #1a73e8;
-        }
-
-        button {
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            padding: 8px 24px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #1557b0;
-        }
-
-        .delete-account {
-            background-color: #fff;
-            color: #d93025;
-            border: 1px solid #dadce0;
-        }
-
-        .delete-account:hover {
-            background-color: #fce8e6;
-        }
-
-        .back-button {
-            background-color: #fff;
-            color: #1a73e8;
-            border: 1px solid #dadce0;
-        }
-
-        .back-button:hover {
-            background-color: #f8f9fa;
-        }
-
-        .section-content {
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #5f6368;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>계정 관리</h1>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">개인정보</div>
+<documents>
+    <document index="1">
+    <source>account_setting.html</source>
+    <document_content>
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>계정 관리</title>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }    body {
+                font-family: 'Noto Sans KR', sans-serif;
+                line-height: 1.6;
+                color: #f0f0f0;
+                background-color: #0a0a0a;
+                margin: 0;
+                padding: 40px;
+            }
+        
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        
+            .header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 2rem;
+            }
+        
+            .header h1 {
+                font-size: 1.8rem;
+                font-weight: 500;
+                color: #f0f0f0;
+                margin-left: 10px;
+            }
+        
+            .card {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                margin-bottom: 1.5rem;
+            }
+        
+            .card-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            }
+        
+            .card-title {
+                font-size: 1.3rem;
+                color: #f0f0f0;
+                font-weight: 500;
+            }
+        
+            .account-info {
+                color: #ccc;
+                margin-bottom: 1.2rem;
+            }
+        
+            input {
+                width: 100%;
+                padding: 12px 16px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 6px;
+                font-size: 15px;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #f0f0f0;
+                margin-bottom: 1.2rem;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+        
+            input:focus {
+                border-color: #ff3366;
+            }
+        
+            button {
+                background-color: #ff3366;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 15px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+        
+            button:hover {
+                background-color: #e62e5c;
+            }
+        
+            .delete-account {
+                background-color: transparent;
+                color: #d93025;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        
+            .delete-account:hover {
+                background-color: rgba(217, 48, 37, 0.1);
+            }
+        
+            .back-button {
+                background-color: transparent;
+                color: #ff3366;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        
+            .back-button:hover {
+                background-color: rgba(255, 51, 102, 0.1);
+            }
+        
+            .section-content {
+                margin-bottom: 1.2rem;
+            }
+        
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+        
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #ccc;
+                font-size: 15px;
+            }
+        </style>
+    </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>계정 관리</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">개인정보</div>
+                    </div>
+                    <div class="section-content">
+                        <form id="nicknameForm" class="form-group">
+                            <label for="nickname">닉네임</label>
+                            <input type="text" id="nickname" placeholder="닉네임을 입력하세요"/>
+                            <button type="submit">저장</button>
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">로그인 및 보안</div>
+                    </div>
+                    <div class="section-content">
+                        <form id="emailForm" class="form-group">
+                            <label for="newEmail">이메일</label>
+                            <input type="email" id="newEmail" placeholder="새 이메일 주소"/>
+                            <button type="submit">변경</button>
+                        </form>
+            
+                        <form id="passwordForm" class="form-group">
+                            <label for="newPassword">비밀번호</label>
+                            <input type="password" id="newPassword" placeholder="새 비밀번호"/>
+                            <button type="submit">변경</button>
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">계정 관리</div>
+                    </div>
+                    <div class="section-content">
+                        <button id="logoutButton" class="back-button">로그아웃</button>
+                        <button id="deleteAccountButton" class="delete-account">계정 삭제</button>
+                    </div>
+                </div>
+            
+                <button id="backButton" class="back-button">뒤로가기</button>
             </div>
-            <div class="section-content">
-                <form id="nicknameForm" class="form-group">
-                    <label for="nickname">닉네임</label>
-                    <input type="text" id="nickname" placeholder="닉네임을 입력하세요"/>
-                    <button type="submit">저장</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">로그인 및 보안</div>
-            </div>
-            <div class="section-content">
-                <form id="emailForm" class="form-group">
-                    <label for="newEmail">이메일</label>
-                    <input type="email" id="newEmail" placeholder="새 이메일 주소"/>
-                    <button type="submit">변경</button>
-                </form>
-
-                <form id="passwordForm" class="form-group">
-                    <label for="newPassword">비밀번호</label>
-                    <input type="password" id="newPassword" placeholder="새 비밀번호"/>
-                    <button type="submit">변경</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">계정 관리</div>
-            </div>
-            <div class="section-content">
-                <button id="logoutButton" class="back-button">로그아웃</button>
-                <button id="deleteAccountButton" class="delete-account">계정 삭제</button>
-            </div>
-        </div>
-
-        <button id="backButton" class="back-button">뒤로가기</button>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, updateEmail, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
-            authDomain: "cta-dicon1.firebaseapp.com",
-            projectId: "cta-dicon1",
-            storageBucket: "cta-dicon1.appspot.com",
-            messagingSenderId: "319134783624",
-            appId: "1:319134783624:web:ee5e043f4a6a72b37b673d",
-            measurementId: "G-2RVKF8G7Y7",
-            databaseURL: "https://cta-dicon1-default-rtdb.firebaseio.com/"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
-
-        document.getElementById('backButton').addEventListener('click', () => {
-            window.history.back();
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                get(ref(database, 'users/' + user.uid)).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        document.getElementById("accountInfo").textContent = `${user.email}`;
-                    } else {
-                        document.getElementById("accountInfo").textContent = `${user.email}`;
-                    }
+            
+            <script type="module">
+                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+                import { getAuth, onAuthStateChanged, signOut, updateEmail, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+                import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
+                    authDomain: "cta-dicon1.firebaseapp.com",
+                    projectId: "cta-dicon1",
+                    storageBucket: "cta-dicon1.appspot.com",
+                    messagingSenderId: "319134783624",
+                    appId: "1:319134783624:web:ee5e043f4a6a72b37b673d",
+                    measurementId: "G-2RVKF8G7Y7",
+                    databaseURL: "https://cta-dicon1-default-rtdb.firebaseio.com/"
+                };
+        
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const database = getDatabase(app);
+        
+                document.getElementById('backButton').addEventListener('click', () => {
+                    window.history.back();
                 });
-
-                document.getElementById("nicknameForm").addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const nickname = document.getElementById("nickname").value;
-
-                    set(ref(database, 'users/' + user.uid), {
-                        nickname: nickname
-                    }).then(() => {
-                        alert("닉네임이 변경되었습니다.");
-                        window.location.href = 'index.html';
-                    }).catch((error) => {
-                        alert("닉네임 변경 실패: " + error.message);
-                    });
-                });
-
-                document.getElementById("emailForm").addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const newEmail = document.getElementById("newEmail").value;
-
-                    updateEmail(user, newEmail).then(() => {
-                        alert("이메일이 변경되었습니다.");
-                    }).catch((error) => {
-                        alert("이메일 변경 실패: " + error.message);
-                    });
-                });
-
-                document.getElementById("passwordForm").addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const newPassword = document.getElementById("newPassword").value;
-
-                    updatePassword(user, newPassword).then(() => {
-                        alert("비밀번호가 변경되었습니다.");
-                    }).catch((error) => {
-                        alert("비밀번호 변경 실패: " + error.message);
-                    });
-                });
-
-                document.getElementById("logoutButton").addEventListener("click", () => {
-                    signOut(auth).then(() => {
-                        window.location.href = "login.html";
-                    }).catch((error) => {
-                        alert("로그아웃 실패: " + error.message);
-                    });
-                });
-
-                document.getElementById("deleteAccountButton").addEventListener("click", () => {
-                    if (confirm("정말로 계정을 삭제하시겠습니까?")) {
-                        deleteUser(user).then(() => {
-                            alert("계정이 삭제되었습니다.");
-                            window.location.href = "login.html";
-                        }).catch((error) => {
-                            alert("계정 삭제 실패: " + error.message);
+        
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        get(ref(database, 'users/' + user.uid)).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                document.getElementById("accountInfo").textContent = `${user.email}`;
+                            } else {
+                                document.getElementById("accountInfo").textContent = `${user.email}`;
+                            }
+                        });
+        
+                        document.getElementById("nicknameForm").addEventListener("submit", (event) => {
+                            event.preventDefault();
+                            const nickname = document.getElementById("nickname").value;
+        
+                            set(ref(database, 'users/' + user.uid), {
+                                nickname: nickname
+                            }).then(() => {
+                                alert("닉네임이 변경되었습니다.");
+                                window.location.href = 'index.html';
+                            }).catch((error) => {
+                                alert("닉네임 변경 실패: " + error.message);
+                            });
+                        });
+        
+                        document.getElementById("emailForm").addEventListener("submit", (event) => {
+                            event.preventDefault();
+                            const newEmail = document.getElementById("newEmail").value;
+        
+                            updateEmail(user, newEmail).then(() => {
+                                alert("이메일이 변경되었습니다.");
+                            }).catch((error) => {
+                                alert("이메일 변경 실패: " + error.message);
+                            });
+                        });
+        
+                        document.getElementById("passwordForm").addEventListener("submit", (event) => {
+                            event.preventDefault();
+                            const newPassword = document.getElementById("newPassword").value;
+        
+                            updatePassword(user, newPassword).then(() => {
+                                alert("비밀번호가 변경되었습니다.");
+                            }).catch((error) => {
+                                alert("비밀번호 변경 실패: " + error.message);
+                            });
+                        });
+        
+                        document.getElementById("logoutButton").addEventListener("click", () => {
+                            signOut(auth).then(() => {
+                                window.location.href = "login.html";
+                            }).catch((error) => {
+                                alert("로그아웃 실패: " + error.message);
+                            });
+                        });
+        
+                        document.getElementById("deleteAccountButton").addEventListener("click", () => {
+                            if (confirm("정말로 계정을 삭제하시겠습니까?")) {
+                                deleteUser(user).then(() => {
+                                    alert("계정이 삭제되었습니다.");
+                                    window.location.href = "login.html";
+                                }).catch((error) => {
+                                    alert("계정 삭제 실패: " + error.message);
+                                });
+                            }
                         });
                     }
                 });
-            }
-        });
-    </script>
-</body>
-</html>
+            </script>
+        </body>
+    </html>
+    </document_content>
+    </document>
