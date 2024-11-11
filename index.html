@@ -9,7 +9,15 @@
       @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
 
-      body,
+      body{
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
       html {
         margin: 0;
         padding: 0;
@@ -19,7 +27,15 @@
         color: #ffffff;
         overflow: hidden;
       }
-
+      .container {
+        width: 100%;
+        height: 100vh; /* 화면 높이에 맞게 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* 세로 중앙 정렬 */
+        align-items: center; /* 가로 중앙 정렬 */
+        text-align: center;
+      }
       .video-container {
         position: fixed;
         top: 0;
@@ -111,19 +127,16 @@
       }
 
       .section {
+        width: 100%;
         min-height: 100vh;
-        padding: 80px 20px;
-        text-align: center;
-        position: relative;
-        background: rgba(15, 15, 15, 0.7);
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: center; /* 세로 중앙 정렬 */
+        align-items: center; /* 가로 중앙 정렬 */
+        padding: 0 20px;
+        scroll-snap-align: start;
       }
-
+      
       .section::before {
         content: "";
         position: absolute;
@@ -141,7 +154,7 @@
         z-index: 3;
         pointer-events: none;
       }
-
+      
       .section h2 {
         margin-bottom: 40px;
         font-size: 48px;
@@ -153,7 +166,7 @@
         position: relative;
         z-index: 4;
       }
-
+      
       .section p {
         line-height: 1.8;
         font-size: 20px;
@@ -164,6 +177,7 @@
         position: relative;
         z-index: 4;
       }
+      
 
       #game-download {
         display: flex;
@@ -495,16 +509,12 @@
       <div class="section" id="top">
         <h2>Welcome to Our Game</h2>
         <p>
-          Step into the strategic battlefield of hexagonal lands and conquer
-          more territory than your opponent to claim victory!
+            저희 게임은 땅따먹기 게임과 미니게임의 특징을 합하여 만들었습니다.
         </p>
       </div>
 
       <div class="section" id="about">
         <h2>About the Game</h2>
-        <p>
-          저희 게임은 땅따먹기 게임과 미니게임의 특징을 합하여 만들었습니다.
-        </p>
         <p>
           미니게임에서 승리해 상대보다 더 많은 포인트를 차지하고 보상을
           획득하세요!
@@ -570,7 +580,7 @@
           </div>
         </div>
       </div>
-    </div>
+      
 
     <script type="module">
       // Firebase 설정 및 인증 코드
