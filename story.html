@@ -6,7 +6,6 @@
     <title>Game Story</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
-        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
 
         body, html {
             margin: 0;
@@ -15,6 +14,7 @@
             font-family: "Noto Sans KR", sans-serif;
             background-color: #0a0a0a;
             color: #ffffff;
+            overflow-x: hidden;
         }
 
         .navbar {
@@ -67,7 +67,8 @@
             max-width: 1200px;
             margin: 0 auto;
             min-height: 100vh;
-            background: rgba(15, 15, 15, 0.7);
+            height: 100vh;
+            overflow: hidden;
         }
 
         .story-section {
@@ -76,6 +77,11 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
         }
 
         .story-section h2 {
@@ -96,48 +102,6 @@
             margin-bottom: 30px;
         }
 
-        .story-image {
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin: 30px auto;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .story-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        @media (max-width: 768px) {
-            .navbar .nav-links {
-                gap: 15px;
-                margin-right: 15px;
-            }
-            .navbar a {
-                padding: 8px 15px;
-                font-size: 16px;
-            }
-            .story-section {
-                padding: 20px;
-                margin: 10px;
-            }
-            .story-section h2 {
-                font-size: 28px;
-            }
-            .story-content {
-                font-size: 16px;
-            }
-            .story-image {
-                height: 300px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -154,45 +118,115 @@
     </div>
 
     <div class="story-container">
-        <div class="story-section">
-            <h2>게임의 세계관</h2>
+        <!-- 챕터 1 -->
+        <section class="story-section" id="chapter1">
+            <h2>전쟁과 기술 발전</h2>
             <div class="story-content">
-                <p>먼 미래, 인류는 우주 개척을 통해 새로운 행성을 발견했습니다. 이 행성은 37개의 특별한 구역으로 나뉘어져 있었고, 각 구역은 독특한 자원과 특성을 가지고 있었습니다.</p>
-                <p>이 행성의 지배권을 두고 여러 세력들이 치열한 경쟁을 벌이게 되었고, 그들은 직접적인 전쟁 대신 '게임'이라는 형식을 통해 영토를 획득하기로 합니다.</p>
+                <p>1940년 2차세계대전 중 전쟁이 가열되고 기술이 폭발적으로 발전했다.</p>
             </div>
-        </div>
+        </section>
 
-        <div class="story-section">
-            <h2>게임의 규칙</h2>
+        <!-- 챕터 2 -->
+        <section class="story-section" id="chapter2">
+            <h2>핵 사용의 시작</h2>
             <div class="story-content">
-                <p>각 플레이어는 자신만의 특별한 카드와 능력을 가지고 시작합니다. 이 카드들은 고대 문명의 기술을 응용한 것으로, 영토 점령과 방어에 사용됩니다.</p>
-                <p>미니게임을 통해 획득한 포인트로 영토를 확장하고, 상대방의 영토를 분할하여 전략적 우위를 차지하세요. 각 구역의 특성을 잘 파악하고 활용하는 것이 승리의 핵심입니다.</p>
+                <p>이미 잃을대로 잃은 국가들은 무분별하게 핵을 사용하기 시작하였다.</p>
             </div>
-        </div>
+        </section>
 
-        <div class="story-section">
-            <h2>미니게임의 유래</h2>
+        <!-- 챕터 3 -->
+        <section class="story-section" id="chapter3">
+            <h2>환경 변화</h2>
             <div class="story-content">
-                <p>행성의 고대 문명은 영토 분쟁을 해결하기 위해 다양한 시험을 만들었습니다. 이것이 현재 미니게임의 형태로 남아있습니다.</p>
-                <p>각각의 미니게임은 고대 문명의 지혜와 기술을 시험하는 방식으로 구성되어 있으며, 난이도에 따라 더 큰 보상을 얻을 수 있습니다.</p>
+                <p>지구의 환경은 급변하기 시작하였고 결국 빙하기가 시작되었다.</p>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- 로그인 모달 -->
-    <div class="login-modal" id="loginModal">
-        <!-- 로그인 모달 내용은 index.html과 동일 -->
+        <!-- 챕터 4 -->
+        <section class="story-section" id="chapter4">
+            <h2>생존을 위한 협력</h2>
+            <div class="story-content">
+                <p>사람들은 척박한 환경 속에서 살아남기 위해 협력하며, 자신과 비슷한 사람들을 찾게 되었다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 5 -->
+        <section class="story-section" id="chapter5">
+            <h2>생존 그룹의 형성</h2>
+            <div class="story-content">
+                <p>결국 서로 비슷하며 잘 협력하고, 기술력이 뛰어나고 인력이 풍부한 두 그룹만이 생존하여 인류가 존속하게 되었다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 6 -->
+        <section class="story-section" id="chapter6">
+            <h2>빙하기의 끝과 새로운 시작</h2>
+            <div class="story-content">
+                <p>1000년 후에 빙하기가 끝났고 신세대는 처음으로 푸른 땅을 밟게 되었다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 7 -->
+        <section class="story-section" id="chapter7">
+            <h2>세력의 확장</h2>
+            <div class="story-content">
+                <p>두 세력은 본격적으로 땅으로 진출하기 시작하면서 문명은 재건하기 시작하였다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 8 -->
+        <section class="story-section" id="chapter8">
+            <h2>문화의 차이</h2>
+            <div class="story-content">
+                <p>그렇게 세력을 확장하던 두 세력은 서로 만나게 되었지만 반가움도 잠시 서로 문화, 종교, 풍습, 식습관 등등이 너무나 달라져 있었고 두 그룹 사이에는 이상한 기류가 흐르기 시작했다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 9 -->
+        <section class="story-section" id="chapter9">
+            <h2>전쟁의 시작</h2>
+            <div class="story-content">
+                <p>결국 공존보다는 전쟁을 택한 두 세력은 전쟁을 시작했지만, 두 세력 모두 과거 핵 전쟁으로 멸망한 조상들의 가르침이 있었기에 전쟁을 극적으로 멈출 수 있었다.</p>
+            </div>
+        </section>
+
+        <!-- 챕터 10 -->
+        <section class="story-section" id="chapter10">
+            <h2>CTA의 시작</h2>
+            <div class="story-content">
+                <p>두 세력은 합의하여 영토를 점령하는 방식을 CTA로 전환하였고, 마침내 CTA가 시작되었다.</p>
+            </div>
+        </section>
     </div>
 
     <script>
-        // 모달 제어 함수들
-        function openLoginModal() {
-            // index.html과 동일한 로그인 모달 기능
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.story-section');
+
+        function scrollToSection(index) {
+            if (index < 0 || index >= sections.length) return;
+            sections[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            currentSection = index;
         }
 
-        function closeLoginModal() {
-            document.getElementById("loginModal").style.display = "none";
-        }
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0) {
+                scrollToSection(currentSection + 1);
+            } else {
+                scrollToSection(currentSection - 1);
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                scrollToSection(currentSection + 1);
+            } else if (e.key === 'ArrowUp') {
+                scrollToSection(currentSection - 1);
+            }
+        });
     </script>
 </body>
 </html>
