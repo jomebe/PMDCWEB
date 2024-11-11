@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Story</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "Noto Sans KR", sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(90deg, rgba(55, 55, 55, 0.9) 0%, rgba(30, 30, 30, 0.95) 100%);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar img {
+            height: 40px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-right: 30px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .navbar a:hover {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .story-container {
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: rgba(15, 15, 15, 0.7);
+        }
+
+        .story-section {
+            padding: 40px;
+            margin: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .story-section h2 {
+            font-size: 36px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .story-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #f0f0f0;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .story-image {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                gap: 15px;
+                margin-right: 15px;
+            }
+            .navbar a {
+                padding: 8px 15px;
+                font-size: 16px;
+            }
+            .story-section {
+                padding: 20px;
+                margin: 10px;
+            }
+            .story-section h2 {
+                font-size: 28px;
+            }
+            .story-content {
+                font-size: 16px;
+            }
+            .story-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html"><img src="gamelogo.svg" alt="Game Logo" /></a>
+        <div class="nav-links">
+            <a href="index.html#about">About</a>
+            <a href="index.html#features">Features</a>
+            <a href="story.html">Story</a>
+            <a href="index.html#game-download">Download</a>
+            <a href="index.html#requirements">Requirements</a>
+            <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
+        </div>
+    </div>
+
+    <div class="story-container">
+        <div class="story-section">
+            <h2>게임의 세계관</h2>
+            <div class="story-content">
+                <p>먼 미래, 인류는 우주 개척을 통해 새로운 행성을 발견했습니다. 이 행성은 37개의 특별한 구역으로 나뉘어져 있었고, 각 구역은 독특한 자원과 특성을 가지고 있었습니다.</p>
+                <p>이 행성의 지배권을 두고 여러 세력들이 치열한 경쟁을 벌이게 되었고, 그들은 직접적인 전쟁 대신 '게임'이라는 형식을 통해 영토를 획득하기로 합니다.</p>
+            </div>
+        </div>
+
+        <div class="story-section">
+            <h2>게임의 규칙</h2>
+            <div class="story-content">
+                <p>각 플레이어는 자신만의 특별한 카드와 능력을 가지고 시작합니다. 이 카드들은 고대 문명의 기술을 응용한 것으로, 영토 점령과 방어에 사용됩니다.</p>
+                <p>미니게임을 통해 획득한 포인트로 영토를 확장하고, 상대방의 영토를 분할하여 전략적 우위를 차지하세요. 각 구역의 특성을 잘 파악하고 활용하는 것이 승리의 핵심입니다.</p>
+            </div>
+        </div>
+
+        <div class="story-section">
+            <h2>미니게임의 유래</h2>
+            <div class="story-content">
+                <p>행성의 고대 문명은 영토 분쟁을 해결하기 위해 다양한 시험을 만들었습니다. 이것이 현재 미니게임의 형태로 남아있습니다.</p>
+                <p>각각의 미니게임은 고대 문명의 지혜와 기술을 시험하는 방식으로 구성되어 있으며, 난이도에 따라 더 큰 보상을 얻을 수 있습니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div class="login-modal" id="loginModal">
+        <!-- 로그인 모달 내용은 index.html과 동일 -->
+    </div>
+
+    <script>
+        // 모달 제어 함수들
+        function openLoginModal() {
+            // index.html과 동일한 로그인 모달 기능
+        }
+
+        function closeLoginModal() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
