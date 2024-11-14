@@ -105,6 +105,82 @@
         text-align: center;
         margin-bottom: 30px;
       }
+
+      /* 로그인 모달 스타일 */
+      .login-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 400px;
+        color: #000;
+      }
+
+      .login-container h3 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .login-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .login-container input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .login-container button {
+        padding: 12px;
+        background: linear-gradient(45deg, #ff3366, #ff6b6b);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .login-container button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+      }
+
+      .login-container .google-btn {
+        background: #fff;
+        color: #000;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -117,6 +193,40 @@
         <a href="index.html#game-download">Download</a>
         <a href="index.html#requirements">Requirements</a>
         <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
+      </div>
+    </div>
+
+    <!-- 로그인 모달 추가 -->
+    <div class="login-modal" id="loginModal">
+      <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+      <div class="login-container">
+        <form id="loginForm">
+          <h3>Log in with</h3>
+          <button type="button" id="googleLogin" class="google-btn">
+            <img src="./googlelogo.svg" alt="" width="20" height="20" />
+            Google
+          </button>
+          <input
+            type="email"
+            id="signInEmail"
+            placeholder="Email address"
+            required
+          />
+          <input
+            type="password"
+            id="signInPassword"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" id="signInButton">Log In</button>
+          <a href="#" style="text-align: center">Forgot Password?</a>
+        </form>
+        <p style="text-align: center">
+          Don't have account?
+          <a href="#" onclick="window.open('signup.html', '_blank')"
+            >Signup now</a
+          >
+        </p>
       </div>
     </div>
 
@@ -246,6 +356,104 @@
       </section>
     </div>
 
+    <script type="module">
+      // Firebase 설정 및 인증 코드
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+      } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
+        authDomain: "cta-dicon1.firebaseapp.com",
+        projectId: "cta-dicon1",
+        storageBucket: "cta-dicon1.appspot.com",
+        messagingSenderId: "319134783624",
+        appId: "1:319134783624:web:ee5e043f4a6a72b37b673d",
+        measurementId: "G-2RVKF8G7Y7",
+        databaseURL: "https://cta-dicon1-default-rtdb.firebaseio.com/",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+      const provider = new GoogleAuthProvider();
+
+      // 로그인 폼 이벤트 리스너
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          const email = document.getElementById("signInEmail").value;
+          const password = document.getElementById("signInPassword").value;
+
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              console.log("로그인 성공:", user);
+              closeLoginModal();
+              updateLoginStatus(true);
+            })
+            .catch((error) => {
+              console.error("로그인 실패:", error.message);
+              alert("로그인 실패: " + error.message);
+            });
+        });
+
+      // Google 로그인
+      document.getElementById("googleLogin").addEventListener("click", () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const user = result.user;
+            console.log("Google 로그인 성공:", user);
+            closeLoginModal();
+            updateLoginStatus(true);
+          })
+          .catch((error) => {
+            console.error("Google 로그인 실패:", error.message);
+            alert("로그인 실패: " + error.message);
+          });
+      });
+
+      // 프로필 페이지로 이동
+      function navigateToProfile() {
+        window.open("profile.html", "_blank");
+      }
+
+      // 로그인 상태에 따라 UI 업데이트
+      function updateLoginStatus(isLoggedIn) {
+        const loginBtn = document.querySelector(".login-btn");
+        if (isLoggedIn) {
+          loginBtn.textContent = "PROFILE";
+          loginBtn.onclick = navigateToProfile;
+        } else {
+          loginBtn.textContent = "LOGIN";
+          loginBtn.onclick = openLoginModal;
+        }
+      }
+
+      // 초기 로그인 상태 확인
+      auth.onAuthStateChanged((user) => {
+        updateLoginStatus(!!user);
+      });
+
+      // 전역 스코프에서 사용할 함수들을 window 객체에 할당
+      window.openLoginModal = function() {
+        document.getElementById("loginModal").style.display = "flex";
+      }
+
+      window.closeLoginModal = function() {
+        document.getElementById("loginModal").style.display = "none";
+      }
+    </script>
     <script>
       let currentSection = 0;
       const sections = document.querySelectorAll(".story-section");
