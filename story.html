@@ -234,13 +234,13 @@
       </section>
 
       <!-- 챕터 11 -->
-      <section class="story-section" id="chapter10">
+      <section class="story-section" id="chapter11">
         <h2>CTA의 시작</h2>
         <img src="logo.png" />
         <div class="story-content">
           <p>
-            두 세력은 합의하여 영토를 점령하는 방식을 CTA로 전환하였고, 마침내
-            CTA가 시작되었다.
+            두 세력은 합의하여 영토를 점령하는 방식을 택하게 되었고 이를 위한
+            기구로 CTA(Conquer the Area)를 창설하였다.
           </p>
         </div>
       </section>
@@ -249,6 +249,7 @@
     <script>
       let currentSection = 0;
       const sections = document.querySelectorAll(".story-section");
+      let isScrolling = false;
 
       function scrollToSection(index) {
         if (index < 0 || index >= sections.length) return;
@@ -257,9 +258,12 @@
           block: "start",
         });
         currentSection = index;
+        isScrolling = true;
+        setTimeout(() => (isScrolling = false), 800); // 스크롤 후 800ms 대기
       }
 
       window.addEventListener("wheel", (e) => {
+        if (isScrolling) return;
         if (e.deltaY > 0) {
           scrollToSection(currentSection + 1);
         } else {
@@ -268,6 +272,7 @@
       });
 
       window.addEventListener("keydown", (e) => {
+        if (isScrolling) return;
         if (e.key === "ArrowDown") {
           scrollToSection(currentSection + 1);
         } else if (e.key === "ArrowUp") {
