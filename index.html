@@ -461,6 +461,7 @@
         <a href="#about">About</a>
         <a href="#features">Features</a>
         <a href="#story">Story</a>
+        <a href="#chat">Chat</a>
         <a href="#game-download">Download</a>
         <a href="#requirements">Requirements</a>
         <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
@@ -740,7 +741,11 @@ links.forEach((link) => {
     // 'story.html'로 이동할 경우, 부드러운 스크롤을 적용하지 않고 바로 이동
     if (targetHref === "#story") {
       window.location.href = "story.html"; // story.html로 이동
-    } else {
+    } 
+    else if (targetHref === "#chat") {
+      window.location.href = "chat.html";
+    }
+    else {
       // 다른 링크에 대해 부드러운 스크롤 적용
       e.preventDefault();
       const targetSection = document.querySelector(targetHref);
