@@ -239,6 +239,13 @@
                 font-size: 16px;
             }
         }
+        section { padding: 100px 20px; min-height: 100vh; }
+        #about { background: #222; }
+        #features { background: #333; }
+        #story { background: #444; }
+        #chat { background: #555; }
+        #game-download { background: #666; }
+        #requirements { background: #777; }
         
     </style>
 </head>
@@ -246,13 +253,13 @@
     <div class="navbar">
         <a href="#top"><img src="gamelogo.svg" alt="Game Logo" /></a>
       <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#story">Story</a>
-        <a href="#chat">Chat</a>
-        <a href="#game-download">Download</a>
-        <a href="#requirements">Requirements</a>
-        <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
+        <a href="index.html">About</a>
+        <a href="index.html">Features</a>
+        <a href="story.html">Story</a>
+        <a href="chat.html">Chat</a>
+        <a href="index.html">Download</a>
+        <a href="index.html">Requirements</a>
+        <a href="index.html" class="login-btn" onclick="openLoginModal()">Profile</a>
       </div>
     </div>
 
@@ -299,6 +306,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
+        
 
         let currentUser = null;
         let currentRoom = "일반-채팅방";
@@ -311,11 +319,6 @@
                 window.location.href = "index.html"; // 로그인이 필요
             }
         });
-        // 초기 메시지 로드
-        window.onload = () => {
-            loadMessages(currentRoom);
-        };
-
         
 
         function sendMessage() {
