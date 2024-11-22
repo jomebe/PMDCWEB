@@ -301,16 +301,22 @@
         const database = getDatabase(app);
 
         let currentUser = null;
-        let currentRoom = "general";
+        let currentRoom = "일반-채팅방";
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                loadMessages(currentRoom);
+                loadMessages(currentRoom); // 초기에 메시지 로드
             } else {
-                window.location.href = "index.html";
+                window.location.href = "index.html"; // 로그인이 필요
             }
         });
+        // 초기 메시지 로드
+        window.onload = () => {
+            loadMessages(currentRoom);
+        };
+
+        
 
         function sendMessage() {
             const messageInput = document.getElementById('messageInput');
@@ -375,14 +381,20 @@
 
         document.querySelectorAll('.room-list li').forEach(room => {
             room.addEventListener('click', () => {
+                // 이전 활성화된 채팅방 비활성화
                 document.querySelector('.room-list li.active').classList.remove('active');
                 room.classList.add('active');
-                const roomName = room.textContent.toLowerCase().replace(/\s+/g, '-');
+        
+                // 현재 채팅방 이름 갱신
+                const roomName = room.textContent.toLowerCase().replace(/\s+/g, '-'); // 채팅방 이름 포맷팅
                 currentRoom = roomName;
                 document.getElementById('currentRoom').textContent = room.textContent;
+        
+                console.log(`[Switch Room] New Room: ${currentRoom}`); // 디버깅 로그
                 loadMessages(currentRoom);
             });
         });
+        
     </script>
 </body>
 </html>
