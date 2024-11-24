@@ -75,32 +75,38 @@
         }
 
         .chat-container {
-            max-width: 1200px;
-            margin: 80px auto 20px;
-            padding: 20px;
-            flex-grow: 1;
+            max-width: 100%; /* 최대 폭을 화면 전체로 설정 */
+            margin: 80px 0 20px; /* 좌우 여백 제거 */
+            padding: 0; /* 패딩 제거 */
             display: flex;
-            gap: 20px;
+            flex-direction: row; /* 가로 정렬 */
             position: relative;
             z-index: 2;
         }
         
 
         .chat-sidebar {
-            width: 250px;
+            width: 250px; /* 고정된 너비 */
+            min-height: calc(100vh - 120px);
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 0; /* 테두리 곡선 제거 */
             padding: 20px;
             backdrop-filter: blur(5px);
+            position: sticky;
+            top: 80px;
+            flex-shrink: 0; /* 크기 조정 방지 */
         }
+        
 
         .chat-main {
-            flex-grow: 1;
+            flex-grow: 1; /* 남은 공간을 모두 차지 */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(5px);
+            height: calc(100vh - 80px); /* 화면 높이에서 상단 navbar 제외 */
+            margin-left: 27px; /* 채팅 메뉴와 적절한 간격 */
         }
 
         .chat-header {
@@ -119,8 +125,10 @@
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-            max-height: calc(100vh - 280px);
+            height: auto;
+            margin-bottom: 120px; /* 입력창 높이를 반영하여 여백 추가 */
         }
+        
 
         .message {
             margin-bottom: 15px;
@@ -159,17 +167,25 @@
         }
 
         .chat-input {
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed; /* 고정된 위치로 설정 */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 30px; /* 패딩 값을 늘려 공간 확보 */
+            background: rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
-            gap: 10px;
+            gap: 15px; /* 입력창과 버튼 간의 간격 */
+            align-items: center;
+            height: 80px; /* 입력창의 높이를 확장 */
+            z-index: 1000; /* 다른 요소보다 위에 표시 */
         }
 
         .chat-input input {
-            flex-grow: 1;
-            padding: 12px;
+            flex-grow: 1; /* 입력창의 가로 폭을 최대화 */
+            padding: 15px; /* 높이를 늘림 */
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            border-radius: 8px; /* 모서리를 더 둥글게 */
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
             outline: none;
@@ -290,7 +306,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue , get} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVlhLRXMXfgGxY7a5TU84_lfHq7Lssq38",
@@ -306,7 +322,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
-        
 
         let currentUser = null;
         let currentRoom = "일반-채팅방";
@@ -314,27 +329,38 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                loadMessages(currentRoom); // 초기에 메시지 로드
+                loadMessages(currentRoom);
             } else {
                 alert("Please Login First!")
-                window.location.href = "index.html"; // 로그인이 필요
+                window.location.href = "index.html";
             }
         });
-        
+
+        async function getUserNickname(uid) {
+            const userRef = ref(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+            if (snapshot.exists() && snapshot.val().nickname) {
+                return snapshot.val().nickname;
+            }
+            return null;
+        }
 
         function sendMessage() {
             const messageInput = document.getElementById('messageInput');
             const message = messageInput.value.trim();
 
             if (message && currentUser) {
-                const messagesRef = ref(database, `chats/${currentRoom}/messages`);
-                push(messagesRef, {
-                    text: message,
-                    userId: currentUser.uid,
-                    userEmail: currentUser.email,
-                    timestamp: Date.now()
+                getUserNickname(currentUser.uid).then(nickname => {
+                    const messagesRef = ref(database, `chats/${currentRoom}/messages`);
+                    push(messagesRef, {
+                        text: message,
+                        userId: currentUser.uid,
+                        userEmail: currentUser.email,
+                        nickname: nickname || currentUser.email, // 닉네임이 없으면 이메일 사용
+                        timestamp: Date.now()
+                    });
+                    messageInput.value = '';
                 });
-                messageInput.value = '';
             }
         }
 
@@ -359,7 +385,7 @@
 
             const sender = document.createElement('div');
             sender.className = 'sender';
-            sender.textContent = message.userEmail;
+            sender.textContent = message.nickname || message.userEmail; // 닉네임 우선 표시
 
             const content = document.createElement('div');
             content.className = 'content';
@@ -376,6 +402,7 @@
             return div;
         }
 
+        // 이벤트 리스너 설정
         document.getElementById('sendButton').addEventListener('click', sendMessage);
         document.getElementById('messageInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -385,20 +412,14 @@
 
         document.querySelectorAll('.room-list li').forEach(room => {
             room.addEventListener('click', () => {
-                // 이전 활성화된 채팅방 비활성화
                 document.querySelector('.room-list li.active').classList.remove('active');
                 room.classList.add('active');
-        
-                // 현재 채팅방 이름 갱신
-                const roomName = room.textContent.toLowerCase().replace(/\s+/g, '-'); // 채팅방 이름 포맷팅
+                const roomName = room.textContent.toLowerCase().replace(/\s+/g, '-');
                 currentRoom = roomName;
                 document.getElementById('currentRoom').textContent = room.textContent;
-        
-                console.log(`[Switch Room] New Room: ${currentRoom}`); // 디버깅 로그
                 loadMessages(currentRoom);
             });
         });
-        
     </script>
 </body>
 </html>
