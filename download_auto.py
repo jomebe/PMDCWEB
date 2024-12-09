@@ -17,7 +17,7 @@ download_auto_path = os.path.join(downloads, "download_auto.py")
 # 압축 해제 대상 폴더
 extract_folder = os.path.join(documents, "cta")
 # 최종 exe 파일 경로
-exe_relative_path = os.path.join("dhw", "dhw", "RMAKSWHA.exe")
+exe_relative_path = os.path.join("exa", "RMAKSWHA.exe")
 exe_full_path = os.path.join(extract_folder, exe_relative_path)
 # 아이콘 파일 경로
 icon_path = os.path.join(downloads, "gamelogo.ico")
