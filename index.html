@@ -588,30 +588,12 @@
     
         // 첫 번째 다운로드 (cta.zip)
         const downloadLink1 = document.createElement("a");
-        downloadLink1.href = "cta.zip"; // 다운로드할 첫 번째 파일 경로
-        downloadLink1.download = "cta.zip"; // 저장될 첫 번째 파일 이름
+        downloadLink1.href = "ctasetup.exe"; // 다운로드할 첫 번째 파일 경로
+        downloadLink1.download = "ctasetup.exe"; // 저장될 첫 번째 파일 이름
         downloadLink1.style.display = "none"; // 화면에 표시되지 않도록 숨김
         document.body.appendChild(downloadLink1); // DOM에 추가
         downloadLink1.click(); // 강제로 클릭 이벤트 실행
         document.body.removeChild(downloadLink1); // 사용 후 DOM에서 제거
-    
-        // 두 번째 다운로드 (download_auto.py)
-        const downloadLink2 = document.createElement("a");
-        downloadLink2.href = "download_auto.py"; // 다운로드할 두 번째 파일 경로
-        downloadLink2.download = "download_auto.py"; // 저장될 두 번째 파일 이름
-        downloadLink2.style.display = "none"; // 화면에 표시되지 않도록 숨김
-        document.body.appendChild(downloadLink2); // DOM에 추가
-        downloadLink2.click(); // 강제로 클릭 이벤트 실행
-        document.body.removeChild(downloadLink2); // 사용 후 DOM에서 제거
-        
-        // 세 번째 다운로드 (download_auto.py)
-        const downloadLink3 = document.createElement("a");
-        downloadLink3.href = "gamelogo.ico"; // 다운로드할 세 번째 파일 경로
-        downloadLink3.download = "gamelogo.ico"; // 저장될 세 번째 파일 이름
-        downloadLink3.style.display = "none"; // 화면에 표시되지 않도록 숨김
-        document.body.appendChild(downloadLink3); // DOM에 추가
-        downloadLink3.click(); // ��제로 ���� 이���트 실행
-        document.body.removeChild(downloadLink3); // 사용 후 DOM에서 제거
   
     }
     
