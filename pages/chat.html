@@ -6,6 +6,7 @@
     <title>Game Chat</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
     <style>
         
 
@@ -263,20 +264,115 @@
         #game-download { background: #666; }
         #requirements { background: #777; }
         
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            color: #000;
+        }
+
+        .login-container h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-container input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .login-container button {
+            padding: 12px;
+            background: linear-gradient(45deg, #ff3366, #ff6b6b);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .login-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+        }
+
+        .login-container .google-btn {
+            background: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="index.html"><img src="gamelogo.svg" alt="Game Logo" /></a>
+        <a href="../index.html"><img src="../assets/logos/gamelogo.svg" alt="Game Logo" /></a>
       <div class="nav-links">
-        <a href="index.html">About</a>
-        <a href="index.html">Features</a>
-        <a href="story.html">Story</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#features">Features</a>
+        <a href="./story.html">Story</a>
         <a href="chat.html">Chat</a>
-        <a href="index.html">Download</a>
-        <a href="index.html">Requirements</a>
-        <a href="index.html" class="login-btn" onclick="openLoginModal()">Profile</a>
+        <a href="../index.html#game-download">Download</a>
+        <a href="../index.html#requirements">Requirements</a>
+        <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
       </div>
+    </div>
+
+    <div class="login-modal" id="loginModal">
+        <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+        <div class="login-container">
+            <form id="loginForm">
+                <h3>Log in with</h3>
+                <button type="button" id="googleLogin" class="google-btn">
+                    <img src="../assets/logos/googlelogo.svg" alt="" width="20" height="20" />
+                    Google
+                </button>
+                <input type="email" id="signInEmail" placeholder="Email address" required/>
+                <input type="password" id="signInPassword" placeholder="Password" required/>
+                <button type="submit" id="signInButton">Log In</button>
+                <a href="../pages/account/forgot-password.html" style="text-align: center">Forgot Password?</a>
+            </form>
+            <p style="text-align: center">
+                Don't have account?
+                <a href="#" onclick="window.open('../pages/account/signup.html', '_blank')">Signup now</a>
+            </p>
+        </div>
     </div>
 
     <div class="chat-container">
@@ -298,14 +394,14 @@
                 <!-- Messages will be dynamically added here -->
             </div>
             <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="메시지를 입력하세요...">
+                <input type="text" id="messageInput" placeholder="메지를 입력하세요...">
                 <button id="sendButton">전송</button>
             </div>
         </div>
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { getDatabase, ref, push, onValue , get} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -322,6 +418,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
+        const provider = new GoogleAuthProvider();
 
         let currentUser = null;
         let currentRoom = "일반-채팅방";
@@ -330,9 +427,10 @@
             if (user) {
                 currentUser = user;
                 loadMessages(currentRoom);
+                updateLoginStatus(true);
             } else {
-                alert("Please Login First!")
-                window.location.href = "index.html";
+                updateLoginStatus(false);
+                openLoginModal();
             }
         });
 
@@ -349,6 +447,12 @@
             const messageInput = document.getElementById('messageInput');
             const message = messageInput.value.trim();
 
+            if (!currentUser) {
+                alert("채팅을 하시려면 먼저 로그인해 주세요!");
+                openLoginModal();
+                return;
+            }
+
             if (message && currentUser) {
                 getUserNickname(currentUser.uid).then(nickname => {
                     const messagesRef = ref(database, `chats/${currentRoom}/messages`);
@@ -356,7 +460,7 @@
                         text: message,
                         userId: currentUser.uid,
                         userEmail: currentUser.email,
-                        nickname: nickname || currentUser.email, // 닉네임이 없으면 이메일 사용
+                        nickname: nickname || currentUser.email,
                         timestamp: Date.now()
                     });
                     messageInput.value = '';
@@ -365,6 +469,12 @@
         }
 
         function loadMessages(room) {
+            if (!currentUser) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">채팅을 보시려면 먼저 로그인해 주세요!</div>';
+                return;
+            }
+
             const messagesRef = ref(database, `chats/${room}/messages`);
             const chatMessages = document.getElementById('chatMessages');
 
@@ -412,6 +522,12 @@
 
         document.querySelectorAll('.room-list li').forEach(room => {
             room.addEventListener('click', () => {
+                if (!currentUser) {
+                    alert("채팅방을 변경하시려면 먼저 로그인해 주세요!");
+                    openLoginModal();
+                    return;
+                }
+
                 document.querySelector('.room-list li.active').classList.remove('active');
                 room.classList.add('active');
                 const roomName = room.textContent.toLowerCase().replace(/\s+/g, '-');
@@ -420,6 +536,69 @@
                 loadMessages(currentRoom);
             });
         });
+
+        // 로그인 폼 이벤트 리스너
+        document.getElementById("loginForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const email = document.getElementById("signInEmail").value;
+            const password = document.getElementById("signInPassword").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("로그인 성공:", user);
+                    closeLoginModal();
+                    updateLoginStatus(true);
+                })
+                .catch((error) => {
+                    console.error("로그인 실패:", error.message);
+                    alert("로그인 실패: " + error.message);
+                });
+        });
+
+        // Google 로그인
+        document.getElementById("googleLogin").addEventListener("click", () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("Google 로그인 성공:", user);
+                    closeLoginModal();
+                    updateLoginStatus(true);
+                })
+                .catch((error) => {
+                    console.error("Google 로그인 실패:", error.message);
+                    alert("로그인 실패: " + error.message);
+                });
+        });
+
+        // 모달 제어 함수
+        window.openLoginModal = function() {
+            document.getElementById("loginModal").style.display = "flex";
+        }
+
+        window.closeLoginModal = function() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById("loginModal");
+            if (event.target == modal) {
+                closeLoginModal();
+            }
+        };
+
+        function updateLoginStatus(isLoggedIn) {
+            const loginBtn = document.querySelector(".login-btn");
+            if (isLoggedIn) {
+                loginBtn.textContent = "PROFILE";
+                loginBtn.onclick = () => window.location.href = "./account/profile.html";
+                loginBtn.href = "./account/profile.html";
+            } else {
+                loginBtn.textContent = "LOGIN";
+                loginBtn.onclick = openLoginModal;
+                loginBtn.href = "#";
+            }
+        }
     </script>
 </body>
 </html>

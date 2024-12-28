@@ -70,9 +70,8 @@
         position: fixed;
         top: 0;
         width: 100%;
-        
         background: linear-gradient(90deg,rgba(55, 55, 55, 0.9) 0%,rgba(30, 30, 30, 0.95) 100% );
-        padding: 0px 20px;
+        padding: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -81,18 +80,18 @@
       }
 
       .navbar img {
-        height: 40px;
-        width: 40px;
+        height: 45px;
+        width: 45px;
         filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
       }
 
-      .navbar .nav-links {
+      .nav-links {
         display: flex;
         gap: 30px;
         margin-right: 30px;
       }
 
-      .navbar a {
+      .nav-links a {
         color: #fff;
         text-decoration: none;
         padding: 8px 16px;
@@ -101,16 +100,17 @@
         text-transform: uppercase;
         letter-spacing: 2px;
         position: relative;
+        border-radius: 20px;
         transition: all 0.3s ease;
         border: 1px solid transparent;
-    }
+      }
 
-    .navbar a:hover {
+      .nav-links a:hover {
         border: 1px solid rgba(255, 255, 255, 0.3);
         background: rgba(255, 255, 255, 0.1);
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         transform: translateY(-2px);
-    }
+      }
 
       .content-container {
         height: 100vh;
@@ -453,12 +453,12 @@
       <button onclick="scrollToNext()">↓</button>
     </div>
     <div class="navbar">
-      <a href="#top"><img src="gamelogo.svg" alt="Game Logo" /></a>
+      <a href="#top"><img src="assets/logos/gamelogo.svg" alt="Game Logo" /></a>
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#features">Features</a>
-        <a href="#story">Story</a>
-        <a href="#chat">Chat</a>
+        <a href="./pages/story.html">Story</a>
+        <a href="./pages/chat.html">Chat</a>
         <a href="#game-download">Download</a>
         <a href="#requirements">Requirements</a>
         <a href="#" class="login-btn" onclick="openLoginModal()">Login</a>
@@ -472,7 +472,7 @@
         <form id="loginForm">
           <h3>Log in with</h3>
           <button type="button" id="googleLogin" class="google-btn">
-            <img src="./googlelogo.svg" alt="" width="20" height="20" />
+            <img src="assets/logos/googlelogo.svg" alt="" width="20" height="20" />
             Google
           </button>
           <input
@@ -488,11 +488,11 @@
             required
           />
           <button type="submit" id="signInButton">Log In</button>
-          <a href="#" style="text-align: center">Forgot Password?</a>
+          <a href="pages/account/forgot-password.html" style="text-align: center">Forgot Password?</a>
         </form>
         <p style="text-align: center">
           Don't have account?
-          <a href="#" onclick="window.open('signup.html', '_blank')"
+          <a href="#" onclick="window.open('pages/account/signup.html', '_blank')"
             >Signup now</a
           >
         </p>
@@ -500,7 +500,7 @@
     </div>
 
     <div class="video-container">
-      <video src="webmainvideo.mp4" autoplay loop muted preload="auto"></video>
+      <video src="assets/videos/webmainvideo.mp4" autoplay loop muted preload="auto"></video>
     </div>
 
     <div class="content-container">
@@ -517,7 +517,7 @@
           미니게임에서 승리해 상대보다 더 많은 포인트를 차지하고 보상을
           획득하세요!
         </p>
-        <p>37개의 땅에서 한정된 자원으로 최대한의 전략을 구성해 보세요!</p>
+        <p>37개의 땅에서 한정된 자원으로 대한의 전략을 구성해 보세요!</p>
       </div>
 
       <div id="features" class="section feature-container">
@@ -540,8 +540,14 @@
       <div class="section" id="game-download">
         <h2>Download the Game</h2>
         <div class="download-options">
-          <a href="#" class="download-btn windows" id="windows-download">Download for Windows</a>
-          <a href="#" class="download-btn mac">Download for Mac</a>
+          <a href="#" class="download-btn windows" id="windows-download">
+            <img src="assets/logos/windows_icon.svg" alt="Windows" width="24" height="24" />
+            Download for Windows
+          </a>
+          <a href="#" class="download-btn mac" id="mac-download">
+            <img src="assets/logos/mac_icon.svg" alt="Mac" width="24" height="24" />
+            Download for Mac
+          </a>
         </div>
       </div>
 
@@ -581,31 +587,6 @@
       
 
     <script type="module">
-      function download_help() {
-        // Alert 메시지 표시
-        alert("ctasetup.exe을 실행해주세요!");
-    
-        // JavaScript로 파일 다운로드 트리거
-    
-        // 첫 번째 다운로드 (cta.zip)
-        const downloadLink1 = document.createElement("a");
-        downloadLink1.href = "ctasetup.exe"; // 다운로드할 첫 번째 파일 경로
-        downloadLink1.download = "ctasetup.exe"; // 저장될 첫 번째 파일 이름
-        downloadLink1.style.display = "none"; // 화면에 표시되지 않도록 숨김
-        document.body.appendChild(downloadLink1); // DOM에 추가
-        downloadLink1.click(); // 강제로 클릭 이벤트 실행
-        document.body.removeChild(downloadLink1); // 사용 후 DOM에서 제거
-  
-    }
-    
-    // 버튼 클릭 이벤트 리스너 추가
-    const windowsDownloadBtn = document.getElementById("windows-download");
-    windowsDownloadBtn.addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 링크 동작 방지
-        download_help(); // 다운로드 함수 호출
-    });
-    
-      // Firebase 설정 및 인증 코드
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
       import {
         getAuth,
@@ -636,25 +617,23 @@
       const provider = new GoogleAuthProvider();
 
       // 로그인 폼 이벤트 리스너
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", (event) => {
-          event.preventDefault();
-          const email = document.getElementById("signInEmail").value;
-          const password = document.getElementById("signInPassword").value;
+      document.getElementById("loginForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("signInEmail").value;
+        const password = document.getElementById("signInPassword").value;
 
-          signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              console.log("로그인 성공:", user);
-              closeLoginModal();
-              updateLoginStatus(true);
-            })
-            .catch((error) => {
-              console.error("로그인 실패:", error.message);
-              alert("로그인 실패: " + error.message);
-            });
-        });
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log("로그인 성공:", user);
+            closeLoginModal();
+            updateLoginStatus(true);
+          })
+          .catch((error) => {
+            console.error("로그인 실패:", error.message);
+            alert("로그인 실패: " + error.message);
+          });
+      });
 
       // Google 로그인
       document.getElementById("googleLogin").addEventListener("click", () => {
@@ -673,8 +652,9 @@
 
       // 프로필 페이지로 이동
       function navigateToProfile() {
-        window.open("profile.html", "_blank");
+        window.location.href = "pages/account/profile.html";
       }
+
       // 로그인 상태에 따라 UI 업데이트
       function updateLoginStatus(isLoggedIn) {
         const loginBtn = document.querySelector(".login-btn");
@@ -691,19 +671,19 @@
       auth.onAuthStateChanged((user) => {
         updateLoginStatus(!!user);
       });
-    </script>
 
-    <script>
-      // 모달 제어 함수
-      function openLoginModal() {
+      // 전역 스코프에서 사용할 함수들을 window 객체에 할당
+      window.openLoginModal = function() {
         document.getElementById("loginModal").style.display = "flex";
       }
 
-      function closeLoginModal() {
+      window.closeLoginModal = function() {
         document.getElementById("loginModal").style.display = "none";
       }
+    </script>
 
-      // 모달 외부 클릭시 닫기
+    <script>
+      // 모달 외부 클릭시 닫기 이벤트 리스너
       window.onclick = function (event) {
         const modal = document.getElementById("loginModal");
         if (event.target == modal) {
@@ -747,7 +727,7 @@
 
             setTimeout(() => {
               isScrolling = false;
-            }, 1000); // 스크롤 애니메이션 완료 시간
+            }, 1000); // 스크롤 애니메���션 종료 시간
           }
         },
         { passive: false }
@@ -755,31 +735,25 @@
 
       const links = document.querySelectorAll(".navbar a");
 
-links.forEach((link) => {
-  link.addEventListener("click", function (e) {
-    const targetHref = this.getAttribute("href");
+      links.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          const targetHref = this.getAttribute("href");
 
-    // 'story.html'로 이동할 경우, 부드러운 스크롤을 적용하지 않고 바로 이동
-    if (targetHref === "#story") {
-      window.location.href = "story.html"; // story.html로 이동
-    } 
-    else if (targetHref === "#chat") {
-      window.location.href = "chat.html";
-    }
-    else {
-      // 다른 링크에 대해 부드러운 스크롤 적용
-      e.preventDefault();
-      const targetSection = document.querySelector(targetHref);
-      
-      if (targetSection) {
-        const index = Array.from(sections).indexOf(targetSection);
-        scrollToSection(index); // 부드러운 스크롤 실행
-      }
-    }
-  });
-});
-
-
+          // 외부 페이지 링크인 경우 기본 동작 허용
+          if (targetHref.includes('pages/')) {
+            return; // 기본 링크 동작 실행
+          } else {
+            // 다른 링크에 대해 부드러운 스크롤 적용
+            e.preventDefault();
+            const targetSection = document.querySelector(targetHref);
+            
+            if (targetSection) {
+              const index = Array.from(sections).indexOf(targetSection);
+              scrollToSection(index); // 부드러운 스크롤 실행
+            }
+          }
+        });
+      });
 
       // 키보드 방향키 처리
       document.addEventListener("keydown", function (e) {
@@ -790,6 +764,13 @@ links.forEach((link) => {
           e.preventDefault();
           scrollToPrev();
         }
+      });
+
+      // Mac 다운로드 이벤트 리스너 추가
+      const macDownloadBtn = document.getElementById("mac-download");
+      macDownloadBtn.addEventListener("click", function (event) {
+          event.preventDefault();
+          alert("Mac 버전은 준비 중입니다.");
       });
     </script>
     
