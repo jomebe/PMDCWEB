@@ -540,7 +540,7 @@
       <div class="section" id="game-download">
         <h2>Download the Game</h2>
         <div class="download-options">
-          <a href="#" class="download-btn windows" id="windows-download">
+          <a href="assets/downloads/ctasetup.exe" class="download-btn windows" id="windows-download">
             <img src="assets/logos/windows_icon.svg" alt="Windows" width="24" height="24" />
             Download for Windows
           </a>
@@ -727,7 +727,7 @@
 
             setTimeout(() => {
               isScrolling = false;
-            }, 1000); // 스크롤 애니메���션 종료 시간
+            }, 1000); // 스크롤 애니메이션 종료 시간
           }
         },
         { passive: false }
@@ -771,6 +771,18 @@
       macDownloadBtn.addEventListener("click", function (event) {
           event.preventDefault();
           alert("Mac 버전은 준비 중입니다.");
+      });
+
+      // Windows 다운로드 이벤트 리스너 추가
+      const windowsDownloadBtn = document.getElementById("windows-download");
+      windowsDownloadBtn.addEventListener("click", function (event) {
+          event.preventDefault();
+          const downloadLink = document.createElement('a');
+          downloadLink.href = 'assets/downloads/ctasetup.exe';
+          downloadLink.download = 'ctasetup.exe'; // 다운로드될 파일명
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
       });
     </script>
     
